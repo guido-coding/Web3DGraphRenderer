@@ -1,0 +1,344 @@
+<html>
+<head>
+    <title>Web 3D Graph Renderer</title>
+</head>
+<style>
+    
+    body {
+        font-family: sans-serif;
+    }
+    
+    h1 {
+        font-weight: bold;
+        color: #006;
+
+    }
+
+    h2 {
+        font-weight: bold;
+        color: #006;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+    
+    .box {
+        border: solid;
+        border-width: 1px;
+        border-radius: 10px;
+        margin: 5px;
+        padding: 15px;
+        border-color: #228;
+        background-color: #fcfcfc;
+    }
+    
+    .box span, .box label {
+        font-weight: bold;
+        color: #006;
+    }
+    
+    .box img {
+        border: solid;
+        border-color: #ddf;
+        border-width: 1px;
+    }
+    
+    .box input {
+        margin: 2px;
+    }
+    
+    .box td {
+        /*text-align: center;*/
+    }
+    
+    .main {
+        display: inline-block;
+    }
+    
+    input[type=button] {
+        min-width: 10em;
+    }
+    
+</style>
+<body>
+    <div class="main">
+        <h1>Web 3D Graph Renderer</h1>
+        <form name="form" action="javascript:;" onsubmit="handleSubmit()">
+            <div class="box">
+                <h2>Equation</h2>
+                <p>Enter equation. Click submit to render 3D image.</p>
+                <p>Use 'x' and 'y' as variable names.</p>
+                <p>Valid operators are: +, -, *, /, ^, (, ), sin, cos, tan, mod, sqrt, log</p>
+                <p> Use '.' as decimal separator.</p>
+
+                <label for="equation">Equation: </label> Z = 
+                <input type="text" id="equation" name="equation" value="(0.1*y^2 - 0.1*x^2 + 0.1*x*y + 0.1)" size="50">
+                <input type="hidden" id="rotation" name="rotation" value="0.3">
+                <input type="hidden" id="vrot" name="vrot" value="0.3">
+                <input type="submit">
+
+            </div>
+            <div class="box">
+                <h2>View graph</h2>
+                <table>
+                    <tr>
+                        <td>
+                            <img src="" id="image">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <table width="100%">
+                                <tr>
+                                    <td></td>
+                                    <td width="150"><input type="button" value="Rotate (&lt;&lt;&lt; )" onClick="rotate(-0.12)"></td>
+                                    <td width="150"><input type="button" value="Rotate (&lt;)" onClick="rotate(-0.03)"></td>
+                                    <td width="150">
+                                        <input type="button" value="Pan up" onClick="vrotate(-0.1)"><br>
+                                        <input type="button" value="Pan down" onClick="vrotate(0.1)">
+                                    </td>
+                                    <td width="150"><input type="button" value="Rotate (&gt;)" onClick="rotate(0.03)"></td>
+                                    <td width="150"><input type="button" value="Rotate (&gt;&gt;&gt;)" onClick="rotate(0.12)"></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            <table width="100%">
+                                <tr>
+                                    <td></td>
+                                    <td width="400">
+                                        <label for="zoom">View distance (zoom): </label><input type="range" min="50" max="200" value="100" id="zoom" step="1" name="zoom" list="zoomvalues">
+                                        <datalist id="zoomvalues">
+                                            <option value="50" label="50"></option>
+                                            <option value="100" label="100"></option>
+                                            <option value="150" label="150"></option>
+                                            <option value="200" label="200"></option>                                                                                                                           
+                                        </datalist>  
+                                        <input type="submit">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="box">
+                <h2>Settings</h2>
+                <table>
+                    <tr>
+                        <td width="20%">
+                            <p>Graph image size</p>
+                        </td>
+                        <td>
+                            <label for="width">Width: </label><input type="text" id="width" name="width" value="1000"> | 
+                            <label for="height">Height: </label><input type="text" id="height" name="height" value="700">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>X-axis</p>
+                        </td>
+                        <td>
+                            <label for="minx">Min x: </label><input type="text" id="minx" name="minx" value="-10"> | 
+                            <label for="maxx">Max x: </label><input type="text" id="maxx" name="maxx" value="10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Y-axis</p>
+                        </td>
+                        <td>
+                            <label for="miny">Min y: </label><input type="text" id="miny" name="miny" value="-10"> | 
+                            <label for="maxy">Max y: </label><input type="text" id="maxy" name="maxy" value="10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Z-axis</p>
+                        </td>
+                        <td>
+                            <label for="minz">Min z: </label><input type="text" id="minz" name="minz" value="-10"> | 
+                            <label for="maxz">Max z: </label><input type="text" id="maxz" name="maxz" value="10"> | 
+                            <input type="checkbox" id="autoadjustz" name="autoadjustz" value="true" checked><label for="autoadjustz">Auto adjust</label>
+                        </td>
+                    </tr>     
+                    <tr>
+                        <td>
+                            <p>Mesh size</p>
+                        </td>
+                        <td>
+                            <label for="steps">Mesh size</label><input type="range" min="10" max="100" value="25" id="steps" step="1" name="steps" list="stepsvalues">
+                            <datalist id="stepsvalues">
+                                <option value="10" label="10"></option>
+                                <option value="25" label="25"></option>
+                                <option value="50" label="50"></option>
+                                <option value="75" label="75"></option>   
+                                <option value="100" label="100"></option>                                                                                                                             
+                            </datalist>                            
+                            Larger mesh size means more datapoints.
+                            <!--  input type="text" value="25" id="steps" name="steps" -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Scaling factor for Z-axis</p>
+                        </td>
+                        <td>
+                            <label for="scalingfactorz">Scaling factor</label><input type="range" min="-1" max="1" value="0" step="any" id="scalingfactorz" name="scalingfactorz" list="scalingvalues">
+                            <datalist id="scalingvalues">
+                                <option value="0" label="1"></option>
+                            </datalist>
+                            Smaller scaling factor will flatten graph.
+                            <!-- input type="text" id="scalingfactorz" name="scalingfactorz" value="1" -->
+                        </td>
+                    </tr>  
+                    <tr>
+                        <td>
+                            <p>Offset of axes</p>
+                        </td>
+                        <td>
+                            <label for="xoffset">x-axis</label><input type="text" id="xoffset" name="xoffset" value="0"> | 
+                            <label for="yoffset">y-axis</label><input type="text" id="yoffset" name="yoffset" value="0"> | 
+                            <label for="zoffset">z-axis</label><input type="text" id="zoffset" name="zoffset" value="0">
+                        </td>
+                    </tr>                      
+                    <tr>
+                        <td>
+                            <p>Display settings</p>
+                        </td>
+                        <td>
+                            <input type="checkbox" id="showaxis" name="showaxis" value="true" checked><label for="showaxis">Show axes</label> | 
+                            <input type="checkbox" id="showgrid" name="showgrid" value="true" checked><label for="showgrid">Show grid</label> | 
+                            <input type="checkbox" id="showlabel" name="showlabel" value="true" checked><label for="showlabel">Show labels</label> | 
+                            <label for="alpha">Transparency</label><input type="range" min="0" max="255" value="200" step="1" id="alpha" name="alpha">
+
+                        </td>
+                    </tr>  
+                </table>
+                <input type="submit">
+            </div>
+            <div class="box">
+                <h2>URL of image</h2>
+                <label for="label">URL: </label><input type="text" id="label" size="70" readonly>
+                <input type="button" value="Copy to clipboard" onClick="copytoclipboard()">
+            </div>
+
+        </form>
+        <p>Content from <a href="https://www.guidobreuer.nl/project_render3d.html#web">www.guidobreuer.nl</a></p>
+    </div>
+    
+    
+    
+
+
+
+    
+    <script language="javascript">
+    
+        function copytoclipboard() {
+            let text = document.getElementById("label");
+            text.select();
+            text.setSelectionRange(0,9999);
+            navigator.clipboard.writeText(text.value);
+        }
+        
+        /*
+        let params = new URLSearchParams(location.search);
+        
+        if (params.get('equation') != null) document.form.a.value =  params.get('equation');
+        
+        let rot = params.get('rotation');
+        if (rot != null) {
+            document.form.rotation.value = rot;
+        } 
+        
+        let vrotvalue = params.get('vrot');
+        if (vrotvalue != null) {
+            document.form.vrot.value = vrotvalue;
+        } 
+        let zoomValue = params.get('zoom');
+        if (zoomValue != null) {
+            document.form.zoom.value = zoomValue;
+        } 
+        */
+        
+        document.form.requestSubmit();
+
+        function handleSubmit() {
+            //let url = new URL("http://localhost:8080/image");
+            let url = new URL("https://apps.guidobreuer.nl/api/image");
+            url.searchParams.append('equation', document.form.equation.value);
+            url.searchParams.append('rotation', document.form.rotation.value);    
+            url.searchParams.append('vrot', document.form.vrot.value);
+            url.searchParams.append('zoom', document.form.zoom.value);        
+            url.searchParams.append('width', document.form.width.value);                                      
+            url.searchParams.append('height', document.form.height.value); 
+            url.searchParams.append('minx', document.form.minx.value); 
+            url.searchParams.append('miny', document.form.miny.value); 
+            url.searchParams.append('minz', document.form.minz.value); 
+            url.searchParams.append('maxx', document.form.maxx.value); 
+            url.searchParams.append('maxy', document.form.maxy.value); 
+            url.searchParams.append('maxz', document.form.maxz.value);     
+            if (document.getElementById("autoadjustz").checked) {
+                url.searchParams.append('autoadjustz', 'true');
+            } else {
+                url.searchParams.append('autoadjustz', 'false');
+            }
+            url.searchParams.append('xoffset', document.form.xoffset.value);    
+            url.searchParams.append('yoffset', document.form.yoffset.value);    
+            url.searchParams.append('zoffset', document.form.zoffset.value);                            
+            url.searchParams.append('steps', document.form.steps.value);    
+            url.searchParams.append('alpha', document.form.alpha.value);    
+
+            let factor = Math.pow(10, document.form.scalingfactorz.value);
+            url.searchParams.append('scalingfactorz', factor); 
+
+            if (document.getElementById("showaxis").checked) {
+                url.searchParams.append('showaxis', 'true');
+            } else {
+                url.searchParams.append('showaxis', 'false');
+            }   
+            if (document.getElementById("showgrid").checked) {
+                url.searchParams.append('showgrid', 'true');
+            } else {
+                url.searchParams.append('showgrid', 'false');
+            }
+            if (document.getElementById("showlabel").checked) {
+                url.searchParams.append('showlabel', 'true');
+            } else {
+                url.searchParams.append('showlabel', 'false');
+            }                        
+            document.form.label.value = url;
+            document.getElementById("image").src = url;
+        }
+        
+        
+        
+        
+        function rotate(amount) {
+            document.form.rotation.value = parseFloat(document.form.rotation.value) + amount;
+            document.form.requestSubmit();
+
+        }
+        
+        function vrotate(amount) {
+            let phi = parseFloat(document.form.vrot.value) + amount;
+            if (phi < 0.01) phi = 0.03;
+            if (phi > 0.99) phi = 0.97;
+            document.form.vrot.value = phi;
+            document.form.requestSubmit();
+        }
+        
+        /*
+        function adjustZoom(amount) {
+            document.form.zoom.value = parseFloat(document.form.zoom.value) * amount;
+            document.form.requestSubmit();
+        }
+            */
+        
+    </script>
+    
+    
+    
+</body>
+</html>
