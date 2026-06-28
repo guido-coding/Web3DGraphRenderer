@@ -3,9 +3,9 @@ package graph3d;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 
 import equationparser.InvalidEquationException;
 import render3d.Scene;
@@ -55,10 +55,11 @@ public class Graph3DRenderer {
 		
 		scene = new Scene();
 
-		scene.MAX_DRAW_DISTANCE = -1;
-		scene.DRAW_POLYGON_COUNTOUR = true;
-		scene.REJECT_FACES_BEHIND = false;
-		scene.ANTI_ALIAS = true;
+		Scene.MAX_DRAW_DISTANCE = -1;
+		Scene.DRAW_POLYGON_COUNTOUR = true;
+		Scene.REJECT_FACES_BEHIND = false;
+		Scene.ANTI_ALIAS = true;
+		Scene.DRAW_MINIMAP = false;
 
 	}
 	
@@ -138,12 +139,14 @@ public class Graph3DRenderer {
 		}
 	}
 	
-	public BufferedImage getGraphImage() {
+	public Image getGraphImage() {
 		return getGraphImage(width, height);
 	}
 	
-	public BufferedImage getGraphImage(int width, int height) {
+	public Image getGraphImage(int width, int height) {
 		scene.addObjects(graph.getObjects(drawAxis, drawGrid));
+		
+		//scene.report();
 		
 		double averageX = (graph.maxX + graph.minX)/2;
 		double averageY = (graph.maxY + graph.minY)/2;
@@ -157,8 +160,9 @@ public class Graph3DRenderer {
 		
 		scene.setCamera(averageX, averageY, averageZ, zoom, theta, phi);
 		
-		BufferedImage image = scene.next3DView(width, height);
-		Graphics2D g = image.createGraphics();
+		Image image = scene.next3DView(width, height);
+		
+		Graphics2D g = (Graphics2D) image.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("verdana", Font.BOLD, 18));
@@ -174,31 +178,28 @@ public class Graph3DRenderer {
 			double xStepSize = (graph.maxX - graph.minX)/ 10;
 			double yStepSize = (graph.maxY - graph.minY)/ 10; 
 			
-			p = scene.getLocationOnScreen(image.getWidth(), image.getHeight(), graph.minX - xStepSize, graph.yOffset, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.minX - xStepSize, graph.yOffset, graph.zOffset);
 			g.drawString("x (" + graph.minX + ")", p.x, p.y);
-			p = scene.getLocationOnScreen(image.getWidth(), image.getHeight(), graph.maxX + xStepSize, graph.yOffset, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.maxX + xStepSize, graph.yOffset, graph.zOffset);
 			g.drawString("x (" + graph.maxX + ")", p.x, p.y);
 			
-			p = scene.getLocationOnScreen(image.getWidth(), image.getHeight(), graph.xOffset, graph.minY - yStepSize, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.minY - yStepSize, graph.zOffset);
 			g.drawString("y (" + graph.minY + ")", p.x, p.y);
-			p = scene.getLocationOnScreen(image.getWidth(), image.getHeight(), graph.xOffset, graph.maxY + yStepSize, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.maxY + yStepSize, graph.zOffset);
 			g.drawString("y (" + graph.maxY + ")", p.x, p.y);
 			
-			p = scene.getLocationOnScreen(image.getWidth(), image.getHeight(), graph.xOffset, graph.yOffset, graph.maxZ);
+			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.maxZ);
 			g.drawString("z (" + graph.maxZ + ")", p.x, p.y);
-			p = scene.getLocationOnScreen(image.getWidth(), image.getHeight(), graph.xOffset, graph.yOffset, graph.minZ);
+			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.minZ);
 			g.drawString("z (" + graph.minZ + ")", p.x, p.y);
 		}
 		
 		g.drawString("z = " + equation, 40, 40);
-		
+
 		g.dispose();
 		
 		return image;
 	}
 	
-	public void dispose() {
-		scene.close();
-	}
 
 }

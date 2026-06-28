@@ -3,6 +3,7 @@ package nl.guidobreuer.graph.util;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 public class Util {
 
-	public static ResponseEntity<Resource> imageToByteOutput(BufferedImage image) {
+	public static ResponseEntity<Resource> imageToByteOutput(Image image) {
 		try {
 			byte[] array = toPNGBytes(image);
 			Resource resource = new ByteArrayResource(array);
@@ -32,10 +33,19 @@ public class Util {
 	}
 	
 	
-	private	 static byte[] toPNGBytes(BufferedImage image) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(image, "png", baos);
-		return baos.toByteArray();
+	private	 static byte[] toPNGBytes(Image image) throws IOException {
+		if (image instanceof BufferedImage bufferedImage) {			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(bufferedImage, "png", baos);
+			return baos.toByteArray();
+		} else {
+			BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = bufferedImage.createGraphics();
+			g.drawImage(image, 0, 0, null);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(bufferedImage, "png", baos);
+			return baos.toByteArray();
+		}
 	}
 	
 	public static BufferedImage getErrorImage(String message) {

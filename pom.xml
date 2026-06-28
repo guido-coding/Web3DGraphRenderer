@@ -16,6 +16,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>nl.guidobreuer</groupId>
+			<artifactId>equationparser</artifactId>
+			<version>1.0</version>
+		</dependency>	
+		<dependency>
+			<groupId>nl.guidobreuer</groupId>
+			<artifactId>render3d</artifactId>
+			<version>1.1</version>
+		</dependency>	
 	</dependencies>
 	<build>
 		<plugins>

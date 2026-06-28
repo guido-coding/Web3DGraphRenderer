@@ -265,8 +265,8 @@
         document.form.requestSubmit();
 
         function handleSubmit() {
-            //let url = new URL("http://localhost:8080/image");
-            let url = new URL("https://apps.guidobreuer.nl/api/image");
+            let url = new URL("http://localhost:8080/image");
+            //let url = new URL("https://apps.guidobreuer.nl/api/image");
             url.searchParams.append('equation', document.form.equation.value);
             url.searchParams.append('rotation', document.form.rotation.value);    
             url.searchParams.append('vrot', document.form.vrot.value);
@@ -323,8 +323,8 @@
         
         function vrotate(amount) {
             let phi = parseFloat(document.form.vrot.value) + amount;
-            if (phi < 0.01) phi = 0.03;
-            if (phi > 0.99) phi = 0.97;
+            if (phi < 0) phi = 0.00;
+            if (phi > 1) phi = 1;
             document.form.vrot.value = phi;
             document.form.requestSubmit();
         }

@@ -98,10 +98,34 @@ abstract class Graph implements Graph3DObject {
 		double xDim = maxX - minX;
 		double yDim = maxY - minY;
 		double maxDim = xDim > yDim ? xDim : yDim;
+		
+		double LowestZ = minZ < zOffset ? minZ : zOffset;
+		double highestZ = maxZ > zOffset ? maxZ : zOffset;
+		
+		/*
+		axesObjects.add(Object3DFactory.createRectangularPrism(minX, yOffset, zOffset, maxX, yOffset, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
+		axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, minY, zOffset, xOffset, maxY, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
+		axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, yOffset, LowestZ, xOffset, yOffset, highestZ, maxDim/AXIS_TO_GRAPH_SIZE));
+		*/
+		
+		
+		int steps = 20;
+		double stepSize = (maxX-minX)/steps;
+		for (double x = minX; x < maxX; x += stepSize) {
+			axesObjects.add(Object3DFactory.createRectangularPrism(x, yOffset, zOffset, x+stepSize, yOffset, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
+		}
+		stepSize = (maxY-minY)/steps;
+		for (double y = minY; y < maxY; y += stepSize) {
+			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, y, zOffset, xOffset, y+stepSize, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
+		}
+		stepSize = (highestZ-LowestZ)/steps;
+		for (double z = LowestZ; z < highestZ; z += stepSize) {
+			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, yOffset, z, xOffset, yOffset, z+stepSize, maxDim/AXIS_TO_GRAPH_SIZE));
+		}
+		
+		
+		/*
 		double stepSize = maxDim/AXIS_TO_GRAPH_SIZE;
-		
-		
-		
 		for (double x = minX; x < maxX; x += stepSize) {
 			Object3D o = Object3DFactory.createCube(stepSize, x, 0 + yOffset, 0 + zOffset, Color.DARK_GRAY);
 			axesObjects.add(o);
@@ -111,17 +135,12 @@ abstract class Graph implements Graph3DObject {
 			axesObjects.add(o);
 		}
 		
-		double LowestZ = minZ < zOffset ? minZ : zOffset;
-		double highestZ = maxZ > zOffset ? maxZ : zOffset;
-		int maxCubes = 1000;
-		int i=0;
-		
+
 		for (double z = LowestZ; z < highestZ; z += stepSize) {
 			Object3D o = Object3DFactory.createCube(stepSize, 0 + xOffset, 0 + yOffset, z, Color.DARK_GRAY);
 			axesObjects.add(o);
-			i++;
-			if (i > maxCubes) break;
 		}
+		*/
 		
 		return axesObjects;
 	}

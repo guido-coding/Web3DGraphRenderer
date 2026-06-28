@@ -2,6 +2,7 @@ package graph3d;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -11,7 +12,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,7 +30,7 @@ public class Graph3D extends JPanel {
 	
 	
 	private final Scene scene;
-	private BufferedImage image;
+	private Image image;
 	private volatile boolean running = true;
 	private final Graph graph;
 
@@ -57,7 +57,6 @@ public class Graph3D extends JPanel {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				scene.close();
 				running = false;
 			}
 		});
@@ -121,6 +120,7 @@ public class Graph3D extends JPanel {
 		//startAnimation();;
 	}
 	
+	@SuppressWarnings("unused")
 	private void startAnimation() {
 		scene.setCameraOrbit(70, 0, 0, 50);
 		scene.setOrbitParameters(0.05, 0.02, 0.3);
@@ -140,6 +140,7 @@ public class Graph3D extends JPanel {
 		t.start();
 	}
 
+	@SuppressWarnings("unused")
 	private boolean isBusy = false;
 	
 	private void handleKeyInput(KeyEvent e) {
@@ -162,6 +163,7 @@ public class Graph3D extends JPanel {
 		repaint();
 	}
 	
+	@SuppressWarnings("unused")
 	private void updateCamera() {
 		isBusy = true;
 		scene.setCamera(0, 0, 0, r, theta, phi);
@@ -170,13 +172,14 @@ public class Graph3D extends JPanel {
 		isBusy = false;
 	}
 
+	@SuppressWarnings("unused")
 	private void loadGraph() {
 		
 		scene.addObjects(graph.getObjects(true, false));
-		scene.MAX_DRAW_DISTANCE = -1;
-		scene.DRAW_POLYGON_COUNTOUR = true;
-		scene.REJECT_FACES_BEHIND = false;
-		scene.ANTI_ALIAS = true;
+		Scene.MAX_DRAW_DISTANCE = -1;
+		Scene.DRAW_POLYGON_COUNTOUR = true;
+		Scene.REJECT_FACES_BEHIND = false;
+		Scene.ANTI_ALIAS = true;
 		
 		r = 100;
 		theta = 0.26*Math.PI;
@@ -193,7 +196,7 @@ public class Graph3D extends JPanel {
 		
 		Graph3DRenderer graphRen = null;
 		try {
-			graphRen = new Graph3DRenderer("0.1*y^2 - 0.1*x^2 + 0.1*x*y + 20");
+			graphRen = new Graph3DRenderer("0.1*y^2 - 0.1*x^2 + 0.1*x*y + 0");
 			
 			graphRen.setRotation(theta);
 			graphRen.setPhi(phi);
@@ -214,11 +217,7 @@ public class Graph3D extends JPanel {
 			g.drawImage(image, 0, 0, null);
 		} catch (InvalidEquationException e) {
 			e.printStackTrace();
-		} finally {
-			if (graphRen != null) {				
-				graphRen.dispose();			
-			}
-		}
+		} 
 		/*
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("verdana", Font.BOLD, 24));

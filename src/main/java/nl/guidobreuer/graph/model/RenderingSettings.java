@@ -30,7 +30,7 @@ public class RenderingSettings {
 		
 		
 		rotation = extractDouble(input, "rotation", 0.3);
-		vrot = extractDouble(input, "vrot", 0.03, 0.97, 0.3);
+		vrot = extractDouble(input, "vrot", 0.0001, 1, 0.3);
 		zoom = extractDouble(input, "zoom", 50, 200, 100);
 		
 		width = extractInt(input, "width", 100, 2000, 1000);
