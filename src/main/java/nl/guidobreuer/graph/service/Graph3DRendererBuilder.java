@@ -1,8 +1,8 @@
 package nl.guidobreuer.graph.service;
 
 import equationparser.InvalidEquationException;
-import graph3d.Graph3DRenderer;
 import nl.guidobreuer.graph.model.RenderingSettings;
+import nl.guidobreuer.graph.model.graph3d.Graph3DRenderer;
 
 public class Graph3DRendererBuilder {
 

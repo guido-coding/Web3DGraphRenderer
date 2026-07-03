@@ -1,4 +1,4 @@
-package graph3d;
+package nl.guidobreuer.graph.model.graph3d;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,11 +6,11 @@ import java.util.Map;
 import equationparser.EquationParser;
 import equationparser.InvalidEquationException;
 
-public class CustomGraph2 extends Graph {
+public class CustomGraph extends Graph {
 	
 	private final EquationParser parser;
 	
-	public CustomGraph2(String equation) throws InvalidEquationException {
+	public CustomGraph(String equation) throws InvalidEquationException {
 		parser = new EquationParser(equation);
 		
 		

@@ -1,64 +1,8 @@
 <html>
 <head>
     <title>Web 3D Graph Renderer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<style>
-    
-    body {
-        font-family: sans-serif;
-    }
-    
-    h1 {
-        font-weight: bold;
-        color: #006;
-
-    }
-
-    h2 {
-        font-weight: bold;
-        color: #006;
-        margin-top: 0px;
-        margin-bottom: 5px;
-    }
-    
-    .box {
-        border: solid;
-        border-width: 1px;
-        border-radius: 10px;
-        margin: 5px;
-        padding: 15px;
-        border-color: #228;
-        background-color: #fcfcfc;
-    }
-    
-    .box span, .box label {
-        font-weight: bold;
-        color: #006;
-    }
-    
-    .box img {
-        border: solid;
-        border-color: #ddf;
-        border-width: 1px;
-    }
-    
-    .box input {
-        margin: 2px;
-    }
-    
-    .box td {
-        /*text-align: center;*/
-    }
-    
-    .main {
-        display: inline-block;
-    }
-    
-    input[type=button] {
-        min-width: 10em;
-    }
-    
-</style>
 <body>
     <div class="main">
         <h1>Web 3D Graph Renderer</h1>
@@ -176,7 +120,6 @@
                                 <option value="100" label="100"></option>                                                                                                                             
                             </datalist>                            
                             Larger mesh size means more datapoints.
-                            <!--  input type="text" value="25" id="steps" name="steps" -->
                         </td>
                     </tr>
                     <tr>
@@ -189,7 +132,6 @@
                                 <option value="0" label="1"></option>
                             </datalist>
                             Smaller scaling factor will flatten graph.
-                            <!-- input type="text" id="scalingfactorz" name="scalingfactorz" value="1" -->
                         </td>
                     </tr>  
                     <tr>
@@ -226,116 +168,8 @@
         </form>
         <p>Content from <a href="https://www.guidobreuer.nl/project_render3d.html#web">www.guidobreuer.nl</a></p>
     </div>
-    
-    
-    
 
-
-
-    
-    <script language="javascript">
-    
-        function copytoclipboard() {
-            let text = document.getElementById("label");
-            text.select();
-            text.setSelectionRange(0,9999);
-            navigator.clipboard.writeText(text.value);
-        }
-        
-        /*
-        let params = new URLSearchParams(location.search);
-        
-        if (params.get('equation') != null) document.form.a.value =  params.get('equation');
-        
-        let rot = params.get('rotation');
-        if (rot != null) {
-            document.form.rotation.value = rot;
-        } 
-        
-        let vrotvalue = params.get('vrot');
-        if (vrotvalue != null) {
-            document.form.vrot.value = vrotvalue;
-        } 
-        let zoomValue = params.get('zoom');
-        if (zoomValue != null) {
-            document.form.zoom.value = zoomValue;
-        } 
-        */
-        
-        document.form.requestSubmit();
-
-        function handleSubmit() {
-            //let url = new URL("http://localhost:8080/image");
-            let url = new URL("https://apps.guidobreuer.nl/api/image");
-            url.searchParams.append('equation', document.form.equation.value);
-            url.searchParams.append('rotation', document.form.rotation.value);    
-            url.searchParams.append('vrot', document.form.vrot.value);
-            url.searchParams.append('zoom', document.form.zoom.value);        
-            url.searchParams.append('width', document.form.width.value);                                      
-            url.searchParams.append('height', document.form.height.value); 
-            url.searchParams.append('minx', document.form.minx.value); 
-            url.searchParams.append('miny', document.form.miny.value); 
-            url.searchParams.append('minz', document.form.minz.value); 
-            url.searchParams.append('maxx', document.form.maxx.value); 
-            url.searchParams.append('maxy', document.form.maxy.value); 
-            url.searchParams.append('maxz', document.form.maxz.value);     
-            if (document.getElementById("autoadjustz").checked) {
-                url.searchParams.append('autoadjustz', 'true');
-            } else {
-                url.searchParams.append('autoadjustz', 'false');
-            }
-            url.searchParams.append('xoffset', document.form.xoffset.value);    
-            url.searchParams.append('yoffset', document.form.yoffset.value);    
-            url.searchParams.append('zoffset', document.form.zoffset.value);                            
-            url.searchParams.append('steps', document.form.steps.value);    
-            url.searchParams.append('alpha', document.form.alpha.value);    
-
-            let factor = Math.pow(10, document.form.scalingfactorz.value);
-            url.searchParams.append('scalingfactorz', factor); 
-
-            if (document.getElementById("showaxis").checked) {
-                url.searchParams.append('showaxis', 'true');
-            } else {
-                url.searchParams.append('showaxis', 'false');
-            }   
-            if (document.getElementById("showgrid").checked) {
-                url.searchParams.append('showgrid', 'true');
-            } else {
-                url.searchParams.append('showgrid', 'false');
-            }
-            if (document.getElementById("showlabel").checked) {
-                url.searchParams.append('showlabel', 'true');
-            } else {
-                url.searchParams.append('showlabel', 'false');
-            }                        
-            document.form.label.value = url;
-            document.getElementById("image").src = url;
-        }
-        
-        
-        
-        
-        function rotate(amount) {
-            document.form.rotation.value = parseFloat(document.form.rotation.value) + amount;
-            document.form.requestSubmit();
-
-        }
-        
-        function vrotate(amount) {
-            let phi = parseFloat(document.form.vrot.value) + amount;
-            if (phi < 0.01) phi = 0.03;
-            if (phi > 0.99) phi = 0.97;
-            document.form.vrot.value = phi;
-            document.form.requestSubmit();
-        }
-        
-        /*
-        function adjustZoom(amount) {
-            document.form.zoom.value = parseFloat(document.form.zoom.value) * amount;
-            document.form.requestSubmit();
-        }
-            */
-        
+    <script language="javascript" src="graph3drenderer.js">
     </script>
     
     
