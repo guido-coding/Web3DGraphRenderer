@@ -6,7 +6,8 @@ Maven project using Spring Boot framework (Java). Application acts as REST contr
 The web3dgraphrenderer.html file is used to submit GET request and display image.
 
 Uses [Equation parser project](https://github.com/guido-coding/equationparser) to calculate results from entered equation.  
-Uses [render3d project](https://github.com/guido-coding/render3d) to render 3D graph images.
+Uses [render3d project](https://github.com/guido-coding/render3d) to render 3D graph images.  
+Install .jar files located in the lib directory in the local Maven respository and update pom.xml file.
 
 
 ## Example

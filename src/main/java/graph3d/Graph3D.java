@@ -45,7 +45,7 @@ public class Graph3D extends JPanel {
 		
 		equation = "(0.1*y^2 - 0.1*x^2 + 0.1*x*y + 0.1)";
 		
-		graph = new CustomGraph2(equation);
+		graph = new CustomGraph(equation);
 
 		
 		JFrame frame = new JFrame("3D Graph viewer");

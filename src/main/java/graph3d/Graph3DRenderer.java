@@ -64,12 +64,9 @@ public class Graph3DRenderer {
 	}
 	
 	
-	public Graph3DRenderer(double A, double B, double C, double D, double E) {
-		this(new CustomGraph(A, B, C, D, E));
-	}
 	
 	public Graph3DRenderer(String equation) throws InvalidEquationException {
-		this(new CustomGraph2(equation));
+		this(new CustomGraph(equation));
 		this.equation = equation;
 	}
 	
