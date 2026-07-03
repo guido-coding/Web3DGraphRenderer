@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import equationparser.InvalidEquationException;
-import graph3d.Graph3DRenderer;
 import nl.guidobreuer.graph.exception.InvalidInputException;
 import nl.guidobreuer.graph.model.RenderingSettings;
+import nl.guidobreuer.graph.model.graph3d.Graph3DRenderer;
 import nl.guidobreuer.graph.service.Graph3DRendererBuilder;
 import nl.guidobreuer.graph.util.Util;
 
