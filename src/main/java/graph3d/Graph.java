@@ -102,13 +102,6 @@ abstract class Graph implements Graph3DObject {
 		double LowestZ = minZ < zOffset ? minZ : zOffset;
 		double highestZ = maxZ > zOffset ? maxZ : zOffset;
 		
-		/*
-		axesObjects.add(Object3DFactory.createRectangularPrism(minX, yOffset, zOffset, maxX, yOffset, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
-		axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, minY, zOffset, xOffset, maxY, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
-		axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, yOffset, LowestZ, xOffset, yOffset, highestZ, maxDim/AXIS_TO_GRAPH_SIZE));
-		*/
-		
-		
 		int steps = 20;
 		double stepSize = (maxX-minX)/steps;
 		for (double x = minX; x < maxX; x += stepSize) {
@@ -123,33 +116,13 @@ abstract class Graph implements Graph3DObject {
 			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, yOffset, z, xOffset, yOffset, z+stepSize, maxDim/AXIS_TO_GRAPH_SIZE));
 		}
 		
-		
-		/*
-		double stepSize = maxDim/AXIS_TO_GRAPH_SIZE;
-		for (double x = minX; x < maxX; x += stepSize) {
-			Object3D o = Object3DFactory.createCube(stepSize, x, 0 + yOffset, 0 + zOffset, Color.DARK_GRAY);
-			axesObjects.add(o);
-		}
-		for (double y = minY; y < maxY; y += stepSize) {
-			Object3D o = Object3DFactory.createCube(stepSize, 0 + xOffset, y, 0 + zOffset, Color.DARK_GRAY);
-			axesObjects.add(o);
-		}
-		
 
-		for (double z = LowestZ; z < highestZ; z += stepSize) {
-			Object3D o = Object3DFactory.createCube(stepSize, 0 + xOffset, 0 + yOffset, z, Color.DARK_GRAY);
-			axesObjects.add(o);
-		}
-		*/
 		
 		return axesObjects;
 	}
 	
 	private List<Object3D> getGrid(double minX, double maxX, double minY, double maxY) {
 		List<Object3D> gridObjects = new ArrayList<Object3D>();
-		
-		//minX = Math.round(minX);
-		//minY = Math.round(minY);
 		
 		double xStepSize = (maxX - minX) / steps;
 		double yStepSize = (maxY - minY) / steps;
