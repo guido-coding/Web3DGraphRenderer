@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,8 @@ import java.time.LocalDateTime;
 @RestController
 public class WebGraphController {
 
+	private static final long MAX_DURATION = 300;
+	
 	// bucket with capacity 20 tokens and with refilling speed 1 token per each 2 second
 	private Bucket createBucket(String ip) {
 		return Bucket.builder()
@@ -57,7 +60,19 @@ public class WebGraphController {
 		Graph3DRenderer renderer = Graph3DRendererBuilder.createGraph3DRenderer(settings);
 		
 		Dimension size = settings.getSize();
+		
+		final Thread thread = Thread.currentThread();
+		final AtomicBoolean running = new AtomicBoolean(true);
+		Thread.ofVirtual().start(() -> {
+			try {
+				Thread.sleep(MAX_DURATION);
+			} catch (InterruptedException e) {}
+			if (running.get()) {
+				thread.interrupt();
+			}
+		});
 		Image image = renderer.getGraphImage(size.width, size.height);
+		running.set(false);
 		
 		long end = System.currentTimeMillis();
 		long duration = end-start;
