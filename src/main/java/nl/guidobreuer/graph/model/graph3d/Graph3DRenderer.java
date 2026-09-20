@@ -43,7 +43,7 @@ public class Graph3DRenderer {
 	
 	public static final double CAMERA_DISTANCE_OBJECT_SIZE_RATIO = 5;
 	
-	private Graph3DRenderer(Graph graph) {
+	public Graph3DRenderer(Graph graph) {
 		this.graph = graph;
 		
 		r = 100;

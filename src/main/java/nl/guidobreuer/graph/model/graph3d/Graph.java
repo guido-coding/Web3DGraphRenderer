@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.guidobreuer.graph.model.Graph3DDatapoint;
 import render3d.ColorAdjusterFactory;
 import render3d.Object3D;
 import render3d.Object3DFactory;
@@ -12,14 +13,14 @@ abstract class Graph implements Graph3DObject {
 	
 	public static final int AXIS_TO_GRAPH_SIZE = 200;
 	
-	protected double minX, minY, maxX, maxY, minZ, maxZ, ZscalingFactor;
+	double minX, minY, maxX, maxY, minZ, maxZ, ZscalingFactor;
 	protected boolean autoAdjustZ = true;
 	protected int alpha = 200;
 	protected double yOffset, xOffset, zOffset;
-	protected int steps;
+	int steps;
 	
 	
-	private double[][] zValues;
+	//private double[][] zValues;
 
 	Graph() {
 		minX = -10;
@@ -37,9 +38,30 @@ abstract class Graph implements Graph3DObject {
 		return getObjects(true, true);
 	}
 	
+	
+	
+	protected abstract Graph3DDatapoint[][] getGraphDatapoints(double minX, double maxX, double minY, double maxY, int steps, double ZscalingFactor);
+	
+	
+	private void initializeZMinMax(Graph3DDatapoint[][] datapoints) {
+		if (!autoAdjustZ) {	
+			return;
+		}
+		minZ = datapoints[0][0].z();
+		maxZ = minZ;
+		for (int x=0; x<datapoints[0].length; x++) {
+			for (int y=0; y<datapoints.length; y++) {
+				if (datapoints[y][x].z() < minZ) minZ = datapoints[y][x].z();
+				if (datapoints[y][x].z() > maxZ) maxZ = datapoints[y][x].z();
+			}
+		}
+		
+	}
 
 	public List<Object3D> getObjects(boolean showAxis, boolean showGrid) {
-		initializeZValues();
+		//initializeZValues();
+		Graph3DDatapoint[][] datapoints = getGraphDatapoints(minX, maxX, minY, maxY, steps, ZscalingFactor);
+		initializeZMinMax(datapoints);
 		
 		List<Object3D> objects = new ArrayList<Object3D>();
 		
@@ -49,12 +71,12 @@ abstract class Graph implements Graph3DObject {
 		if (showGrid) {			
 			objects.addAll(getGrid(minX, maxX, minY, maxY));
 		}
-		objects.addAll(getGraph());
+		objects.addAll(getGraph(datapoints));
 		
 		return objects;
 	}
 
-	
+	/*
 	private void initializeZValues() {
 		zValues = new double[steps+1][steps+1];
 		
@@ -85,9 +107,9 @@ abstract class Graph implements Graph3DObject {
 	private double toY(int y) {
 		return minY + (maxY-minY)*y/(zValues[0].length-1);
 	}
+	*/
 	
-	
-	abstract protected double getZ(double x, double y);
+	//abstract protected double getZ(double x, double y);
 	
 
 	
@@ -141,9 +163,29 @@ abstract class Graph implements Graph3DObject {
 		return gridObjects;
 	}
 	
-	private List<Object3D> getGraph() {
+	
+
+	private List<Object3D> getGraph(Graph3DDatapoint[][] datapoints) {
 		List<Object3D> graphObjects = new ArrayList<Object3D>();
 		
+		for (int x=0; x<datapoints[0].length-1; x++) {
+			for (int y=0; y<datapoints.length-1; y++) {
+				graphObjects.add(
+					Object3DFactory.createPolygon3D(
+						/*
+						new double[] {datapoints[y][x].x(), datapoints[y][x].x(), datapoints[y][x+1].x(), datapoints[y][x+1].x()}, 
+						new double[] {datapoints[y][x].y(), datapoints[y+1][x].y(), datapoints[y+1][x].y(), datapoints[y][x].y()}, 
+						new double[] {datapoints[y][x].z(), datapoints[y+1][x].z(), datapoints[y+1][x+1].z(), datapoints[y][x+1].z()}, 
+						*/
+						new double[] {datapoints[y][x].x(), datapoints[y+1][x].x(), datapoints[y+1][x+1].x(), datapoints[y][x+1].x()}, 
+						new double[] {datapoints[y][x].y(), datapoints[y+1][x].y(), datapoints[y+1][x+1].y(), datapoints[y][x+1].y()}, 
+						new double[] {datapoints[y][x].z(), datapoints[y+1][x].z(), datapoints[y+1][x+1].z(), datapoints[y][x+1].z()}, 
+						new Color(100,100,255,alpha))
+					.setColorAdjuster(ColorAdjusterFactory.getType4ColorAdjuster(minZ, maxZ)));
+			}
+		}
+		
+		/*
 		for (int x=0; x<zValues.length-1; x++) {
 			for (int y=0; y<zValues[0].length-1; y++) {
 				Object3D o = Object3DFactory.createPolygon3D(
@@ -155,6 +197,7 @@ abstract class Graph implements Graph3DObject {
 				graphObjects.add(o);
 			}
 		}
+		*/
 		
 		return graphObjects;
 	}

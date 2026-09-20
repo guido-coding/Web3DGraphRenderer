@@ -6,10 +6,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,9 +26,11 @@ import io.github.bucket4j.Bucket;
 import jakarta.servlet.http.HttpServletRequest;
 import equationparser.InvalidEquationException;
 import nl.guidobreuer.graph.exception.InvalidInputException;
+import nl.guidobreuer.graph.model.CustomGraphData;
 import nl.guidobreuer.graph.model.RenderingSettings;
 import nl.guidobreuer.graph.model.graph3d.Graph3DRenderer;
 import nl.guidobreuer.graph.service.Graph3DRendererBuilder;
+import nl.guidobreuer.graph.service.RequestCache;
 import nl.guidobreuer.graph.util.Util;
 
 import java.time.Duration;
@@ -42,6 +53,10 @@ public class WebGraphController {
 	
 	private final Map<String, Bucket> bucketMap = new ConcurrentHashMap<>();
 
+	
+	
+	
+	
 	@GetMapping("/image")
 	public ResponseEntity<Resource> start(
 			HttpServletRequest request,
@@ -80,7 +95,7 @@ public class WebGraphController {
 		System.out.println(ip + " --- " + LocalDateTime.now() + ": --- Graph rendered in " + duration + " ms.");
 		
 		
-		return Util.imageToByteOutput(image);
+		return ResponseEntity.ok( Util.imageToByteOutput(image));
 	}
 
 	
@@ -102,9 +117,11 @@ public class WebGraphController {
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Resource> handleInvalidInputException(Exception ex) {
-		System.err.println(ex.getMessage());
+		//System.err.println(ex.getMessage());
+		ex.printStackTrace();
 
-		return Util.imageToByteOutput(Util.getErrorImage(ex.getMessage()));
+		return ResponseEntity.internalServerError().body(
+				Util.imageToByteOutput(Util.getErrorImage(ex.getMessage()) ));
 	}
 
 		

@@ -17,15 +17,17 @@ import org.springframework.http.ResponseEntity;
 
 public class Util {
 
-	public static ResponseEntity<Resource> imageToByteOutput(Image image) {
+	public static Resource imageToByteOutput(Image image) {
 		try {
 			byte[] array = toPNGBytes(image);
 			Resource resource = new ByteArrayResource(array);
-			ResponseEntity<Resource> ret = ResponseEntity.ok()
+			/*ResponseEntity<Resource> ret = ResponseEntity.ok()
 					.contentType(MediaType.IMAGE_PNG)
 					.body(resource);
 			
 			return ret;
+			*/
+			return resource;
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			return null;
