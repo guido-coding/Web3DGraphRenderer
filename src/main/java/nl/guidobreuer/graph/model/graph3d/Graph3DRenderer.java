@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.util.Optional;
 
 import equationparser.InvalidEquationException;
 import render3d.Scene;
@@ -29,13 +30,13 @@ import render3d.Scene;
  */
 public class Graph3DRenderer {
 	
-	private final Scene scene;
+	//private final Scene scene;
 	private final Graph graph;
 	
 	private double r, theta, phi;
 	private final int width, height;
 	
-	private String equation = "";
+	private Optional<String> graphLabel = Optional.empty();
 	
 	private boolean drawAxis = true;
 	private boolean drawGrid = true;
@@ -53,21 +54,27 @@ public class Graph3DRenderer {
 		width = 1000;
 		height = 1000;
 		
-		scene = new Scene();
+		//scene = createScene();
 
+
+	}
+	
+	private Scene createScene() {
+		Scene scene = new Scene();
+		
 		Scene.MAX_DRAW_DISTANCE = -1;
 		Scene.DRAW_POLYGON_COUNTOUR = true;
 		Scene.REJECT_FACES_BEHIND = false;
 		Scene.ANTI_ALIAS = true;
 		Scene.DRAW_MINIMAP = false;
-
+		
+		return scene;
 	}
-	
 	
 	
 	public Graph3DRenderer(String equation) throws InvalidEquationException {
 		this(new CustomGraph(equation));
-		this.equation = equation;
+		graphLabel = Optional.of("Z = " + equation);
 	}
 	
 	public void setRotation(double rotation) {
@@ -141,6 +148,8 @@ public class Graph3DRenderer {
 	}
 	
 	public Image getGraphImage(int width, int height) {
+		Scene scene = createScene();
+		
 		scene.addObjects(graph.getObjects(drawAxis, drawGrid));
 		
 		//scene.report();
@@ -186,12 +195,14 @@ public class Graph3DRenderer {
 			g.drawString("y (" + graph.maxY + ")", p.x, p.y);
 			
 			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.maxZ);
-			g.drawString("z (" + graph.maxZ + ")", p.x, p.y);
+			g.drawString("z (" + graph.maxZ / graph.ZscalingFactor + ")", p.x, p.y);
 			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.minZ);
-			g.drawString("z (" + graph.minZ + ")", p.x, p.y);
+			g.drawString("z (" + graph.minZ / graph.ZscalingFactor + ")", p.x, p.y);
 		}
 		
-		g.drawString("z = " + equation, 40, 40);
+		if (graphLabel.isPresent()) {			
+			g.drawString(graphLabel.get(), 40, 40);
+		}
 
 		g.dispose();
 		

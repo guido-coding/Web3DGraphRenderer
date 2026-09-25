@@ -42,15 +42,8 @@ public class WebGraphControllerCustomData {
 	
 	private final Map<String, Bucket> bucketMap = new ConcurrentHashMap<>();
 
-	/*
-	 * TODO
-	 * implement controller - done
-	 * refactor Graph object to leave implemenation of creating scene objects to implementation - done
-	 * create new Graph object implementation for custom data - done
-	 * update Graph3DRendererBuilder to create appropriate Graph type - done
-	 * input validation
-	 */
-	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173", "https://apps.guidobreuer.nl"})
+
+	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173"})
 	@PostMapping("/customdataimage")
 	public ResponseEntity<String> customDataImage(
 			HttpServletRequest request,
@@ -61,19 +54,12 @@ public class WebGraphControllerCustomData {
 		String ip = extractClientIp(request);
 		Bucket bucket = bucketMap.computeIfAbsent(ip, this::createBucket);
 		if (!bucket.tryConsume(1)) {
-			//throw new IllegalStateException("Server timeout. Too many requests. Only 1 request per second allowed.");
 			System.err.println("Server timeout. Too many requests. Only 1 request per second allowed.");
 			return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Server timeout. Too many requests. Only 1 request per second allowed.");
 		}
 		
 		long start = System.currentTimeMillis();
 		
-		/*
-		System.out.println("test");
-		System.out.println(customGraphData);
-		System.out.println(customGraphData.data()[0].length);
-		System.out.println(customGraphData.data()[0][0]);
-		*/
 		
 		Graph3DRenderer renderer = Graph3DRendererBuilder.createGraph3DRendererCustomData(customGraphData);
 		
@@ -97,12 +83,11 @@ public class WebGraphControllerCustomData {
 		
 		String key = RequestCache.put(image);
 		
-		//return Util.imageToByteOutput(image);
 		return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(key);
 	}
 	
 	
-	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173", "https://apps.guidobreuer.nl"})
+	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173"})
 	@GetMapping("/retrieve/{key}")
 	public ResponseEntity<Resource> retrieve(
 			HttpServletRequest request,
