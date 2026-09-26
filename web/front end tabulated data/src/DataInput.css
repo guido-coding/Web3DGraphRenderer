@@ -1,0 +1,53 @@
+.custominputdata p {
+    margin: 0px;
+}
+
+.ydatalabel, .xdatalabelheader {
+    width: 150px;
+    display: inline-block;
+
+}
+
+.blankheader {
+    width: 150px;
+    display: inline-block;
+    padding: 10px;
+}
+
+.ydatalabel {
+    background-color:rgb(252, 216, 198);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.xdatalabelheader {
+    padding-left: 10px;
+}
+
+.xdatalabelheader, .xdatalabel {
+    background-color:rgb(187, 220, 240);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+
+
+.ydatalabel input[type=number] {
+    background-color:rgb(255, 231, 219);
+}
+
+.xdatalabel input[type=number] {
+    background-color:rgb(201, 229, 247);
+}
+
+.inputcell {
+    width: 80px;
+    display: inline-block;
+}
+
+input[type=number] {
+    width: 70px;
+}

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import {Settings} from './Settings.jsx';
 import {initialSettings} from './InitialSettings.jsx';
 import {initialInput} from './InitialSettings.jsx';
+import {CustomDataInput} from './DataInput.jsx';
 import './App.css'
 
-let apiurl = "http://localhost:8080/";
+const apiurl = document.getElementById("apiurl").value;
 
 function App() {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -13,9 +14,7 @@ function App() {
 
 
   function submit() {
-    let settingsTemp = {...settings};
-    settingsTemp.data = parseData(input);
-    postRequest(settingsTemp, setErrorMessage);
+    postRequest(settings, setErrorMessage);    
   }
 
   return (
@@ -24,7 +23,8 @@ function App() {
       <p>Use tabulated data to render 3D graphs.</p>
       <ErrorMessage errorMessage={errorMessage} setErrorMessage={setErrorMessage} />    
       <Submit submit={submit} />
-      <DataInput input={input} setInput={setInput} />
+      <DataInput settings={settings} setSettings={setSettings} input={input} setInput={setInput} />
+      <CustomDataInput settings={settings} setSettings={setSettings} />
       <GraphViewer settings={settings} setSettings={setSettings} />
       <Settings settings={settings} setSettings={setSettings} />
       <div className="bottom"></div>
@@ -32,10 +32,16 @@ function App() {
   )
 }
 
-function DataInput({input, setInput}) {
+function DataInput({settings, setSettings, input, setInput}) {
   
   function handleChange(e) {
     setInput(e.target.value);
+  }
+
+  function update() {
+    let settingsTemp = {...settings};
+    settingsTemp.data = parseData(input);
+    setSettings(settingsTemp);
   }
   
   return(
@@ -44,7 +50,12 @@ function DataInput({input, setInput}) {
       <p>Add data in rows. Separate each value in a row using a semicolon (';'). 
         First row is reserved for x-axis values. First column is reserve for y-axis values. 
         All other values list the z values for the x and y coordinate from the column and row in which the data are added. </p>
-      <textarea rows="10" cols="100" id="data" value={input} onChange={handleChange} />
+      <p>
+        <textarea rows="10" cols="100" id="data" value={input} onChange={handleChange} />
+      </p>
+      <p>
+        <input type="button" value="Update data" onClick={update} />
+      </p>
     </div>
   );
 }

@@ -40,7 +40,7 @@ export function Settings({settings, setSettings}) {
             </p>
             <p>
                 <Label text="Scaling factor for Z-axis" />
-                <SliderInput label="Scaling factor" id="steps" min={0.1} max={10} settings={settings} setSettings={setSettings} />  
+                <SliderInput label="Scaling factor" id="scalingFactorZ" min={0.1} max={10} settings={settings} setSettings={setSettings} />  
                 <span>Smaller scaling factor will flatten graph.</span>
             </p>
             <p>
