@@ -11,7 +11,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [settings, setSettings] = useState(initialSettings);  
   const [input, setInput] = useState(initialInput);
-
+  const [inputmode, setInputmode] = useState("table");
 
   function submit() {
     postRequest(settings, setErrorMessage);    
@@ -23,13 +23,42 @@ function App() {
       <p>Use tabulated data to render 3D graphs.</p>
       <ErrorMessage errorMessage={errorMessage} setErrorMessage={setErrorMessage} />    
       <Submit submit={submit} />
-      <DataInput settings={settings} setSettings={setSettings} input={input} setInput={setInput} />
-      <CustomDataInput settings={settings} setSettings={setSettings} />
+
+      <SelectInputMode inputmode={inputmode} setInputmode={setInputmode} />
+
+      {
+        (inputmode == "text") ? 
+        <DataInput settings={settings} setSettings={setSettings} input={input} setInput={setInput} />
+        : <></>  
+      }
+      {
+        (inputmode == "table") ? 
+        <CustomDataInput settings={settings} setSettings={setSettings} />
+        : <></> 
+      }      
+
+
       <GraphViewer settings={settings} setSettings={setSettings} />
       <Settings settings={settings} setSettings={setSettings} />
       <div className="bottom"></div>
     </>
   )
+}
+
+function SelectInputMode({inputmode, setInputmode}) {
+
+  function update(e) {
+    setInputmode(e.target.id);
+  }
+
+  return (
+    <div className="box">
+      <h2>Select input mode</h2>
+      <p>Selected input mode: {inputmode}</p>
+      <input type="button" value="As delimited text" id="text" onClick={update} />
+      <input type="button" value="As tabulated data" id="table" onClick={update} />      
+    </div>
+  );
 }
 
 function DataInput({settings, setSettings, input, setInput}) {
@@ -46,15 +75,16 @@ function DataInput({settings, setSettings, input, setInput}) {
   
   return(
     <div className="box">
-      <h2>Input data</h2>
+      <h2>Input data as delimited text.</h2>
       <p>Add data in rows. Separate each value in a row using a semicolon (';'). 
         First row is reserved for x-axis values. First column is reserve for y-axis values. 
         All other values list the z values for the x and y coordinate from the column and row in which the data are added. </p>
+        <p>Click "set as graph data" to store changed data. Then click "(re-)render graph" at the bottom of the screen to display the graph.</p>
       <p>
         <textarea rows="10" cols="100" id="data" value={input} onChange={handleChange} />
       </p>
       <p>
-        <input type="button" value="Update data" onClick={update} />
+        <input type="button" value="Set as graph data" onClick={update} />
       </p>
     </div>
   );

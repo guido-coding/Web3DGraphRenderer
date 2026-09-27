@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import './DataInput.css'
 
+/*
 const data = [[1,2,3],[4,5,6],[7,8,9]];
 const xvalues = [1,2,3];
 const yvalues = [1,2,3];
@@ -10,9 +11,35 @@ const initialData = {
     yvalues: yvalues,
     data: data
 };
+*/
+
+function initializeInput() {
+
+    function getValue(x, y) {
+        return 0.1*y*y-0.1*x*x+0.1*x*y+0.1;
+    }
+
+    let xvalues = [0,1,2,3,4,5,6,7,8,9,10];
+    let yvalues = [0,1,2,3,4,5,6,7,8,9,10];
+    let data = [];
+
+    for (let y=0; y<yvalues.length; y++) {
+        let row = [];
+        for (let x=0; x<xvalues.length; x++) {
+            row.push(getValue(x,y));
+        }
+        data.push(row);
+    }
+
+    return {
+        xvalues: xvalues,
+        yvalues: yvalues,
+        data: data
+    };
+}
 
 export function CustomDataInput({settings, setSettings}) {
-    const [graphData, setGraphData] = useState(initialData);
+    const [graphData, setGraphData] = useState(initializeInput);
 
     function parseGraphData() {
         let data = []
@@ -45,16 +72,17 @@ export function CustomDataInput({settings, setSettings}) {
 
     return (
         <div className="box">
-            <h2>Input data</h2>
+            <h2>Input data in a table</h2>
             <p>
                 Add data in table below. Add and remove rows or columns as needed.
             </p>
+            <p>Click "set as graph data" to store changed data. Then click "(re-)render graph" at the bottom of the screen to display the graph.</p>
             <div className="custominputdata">
                 <XLabelRow graphData={graphData} setGraphData={setGraphData} />
                 {rows}
                 <XButtonRow graphData={graphData} setGraphData={setGraphData} />
                 <p>
-                    <input type="button" value="Update data" onClick={parseGraphData} />
+                    <input type="button" value="Set as graph data" onClick={parseGraphData} />
                 </p>
             </div>
         </div>
@@ -66,12 +94,15 @@ function XLabelRow({graphData, setGraphData}) {
     let cells = [];
 
     for (let i=0; i<graphData["xvalues"].length; i++) {
-        cells.push(<span className="inputcell" key={i}><LabelCell graphData={graphData} setGraphData={setGraphData} labelname="xvalues" index={i} /></span>);
+        cells.push(
+            <span className="inputcell" key={i}>
+                <LabelCell graphData={graphData} setGraphData={setGraphData} labelname="xvalues" index={i} />
+            </span>);
     }
 
     return(
         <p>
-            <span className="xdatalabelheader"> X values: </span>
+            <span className="ylabelheader"><span style={{color: 'rgb(255, 137, 77)'}}>Y values:</span> | <span style={{color: 'rgb(53, 170, 243)'}}>X values:</span> </span>
             <span className="xdatalabel">
                 {cells}
             </span>
@@ -116,8 +147,8 @@ function XButtonRow({graphData, setGraphData}) {
 
     return(
         <p>
-            <span className="blankheader"></span>
-            <span>
+            <span className="ylabelheader"></span>
+            <span className="inputcellgroup">
                 {cells}
             </span>
         </p>
@@ -151,8 +182,8 @@ function InputRow({graphData, setGraphData, yindex}) {
     
     return(
         <p>
-            <span className="ydatalabel"> Y value: <LabelCell graphData={graphData} setGraphData={setGraphData} labelname="yvalues" index={yindex} /></span>
-            {cells}
+            <span className="ydatalabel ylabelheader"><LabelCell graphData={graphData} setGraphData={setGraphData} labelname="yvalues" index={yindex} /></span>
+            <span className="inputcellgroup">{cells}</span>
             <input type="button" value="remove" onClick={remove} />
             <input type="button" value="insert before" onClick={insert} />
         </p>

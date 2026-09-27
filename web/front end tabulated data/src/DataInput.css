@@ -2,52 +2,46 @@
     margin: 0px;
 }
 
-.ydatalabel, .xdatalabelheader {
-    width: 150px;
-    display: inline-block;
 
-}
 
-.blankheader {
+.ylabelheader {
     width: 150px;
     display: inline-block;
     padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    text-align: right;
 }
-
 .ydatalabel {
-    background-color:rgb(252, 216, 198);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    border-right: solid;
+    border-color:rgb(255, 231, 219);
 }
-
-.xdatalabelheader {
-    padding-left: 10px;
-}
-
-.xdatalabelheader, .xdatalabel {
-    background-color:rgb(187, 220, 240);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-}
-
-
-
 .ydatalabel input[type=number] {
     background-color:rgb(255, 231, 219);
 }
 
+.xdatalabel {
+    border-bottom: solid;
+    border-color:rgb(201, 229, 247);
+    padding: 12px;
+}
 .xdatalabel input[type=number] {
     background-color:rgb(201, 229, 247);
 }
 
+
+
+.inputcellgroup {
+    padding: 10px;
+}
+
 .inputcell {
-    width: 80px;
+    width: 60px;
     display: inline-block;
+    text-align: center;
 }
 
 input[type=number] {
-    width: 70px;
+    width: 50px;
 }
+
