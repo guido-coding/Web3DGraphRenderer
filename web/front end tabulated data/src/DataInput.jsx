@@ -71,8 +71,7 @@ export function CustomDataInput({settings, setSettings}) {
     }
 
     return (
-        <div className="box">
-            <h2>Input data in a table</h2>
+        <div className="boxcontent">
             <p>
                 Add data in table below. Add and remove rows or columns as needed.
             </p>

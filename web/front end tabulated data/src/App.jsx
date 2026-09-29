@@ -20,23 +20,23 @@ function App() {
   return (
     <>
       <h1>Graph3D renderer</h1>
-      <p>Use tabulated data to render 3D graphs.</p>
+      <p>Use user-entered data to render 3D graphs.</p>
       <ErrorMessage errorMessage={errorMessage} setErrorMessage={setErrorMessage} />    
       <Submit submit={submit} />
+      <div>
+        <SelectInputMode inputmode={inputmode} setInputmode={setInputmode} />
 
-      <SelectInputMode inputmode={inputmode} setInputmode={setInputmode} />
-
-      {
-        (inputmode == "text") ? 
-        <DataInput settings={settings} setSettings={setSettings} input={input} setInput={setInput} />
-        : <></>  
-      }
-      {
-        (inputmode == "table") ? 
-        <CustomDataInput settings={settings} setSettings={setSettings} />
-        : <></> 
-      }      
-
+        {
+          (inputmode == "text") ? 
+          <DataInput settings={settings} setSettings={setSettings} input={input} setInput={setInput} />
+          : <></>  
+        }
+        {
+          (inputmode == "table") ? 
+          <CustomDataInput settings={settings} setSettings={setSettings} />
+          : <></> 
+        }      
+      </div>
 
       <GraphViewer settings={settings} setSettings={setSettings} />
       <Settings settings={settings} setSettings={setSettings} />
@@ -48,15 +48,28 @@ function App() {
 function SelectInputMode({inputmode, setInputmode}) {
 
   function update(e) {
+    e.preventDefault();
     setInputmode(e.target.id);
+    document.getElementById(e.target.id).className = "selected";
   }
 
   return (
-    <div className="box">
-      <h2>Select input mode</h2>
-      <p>Selected input mode: {inputmode}</p>
-      <input type="button" value="As delimited text" id="text" onClick={update} />
-      <input type="button" value="As tabulated data" id="table" onClick={update} />      
+    <div className="boxheader">
+      <p className="buttons">
+        <span>Select Input mode: </span>
+        {
+          (inputmode=="text") ?
+          <>
+          <a href="#" id="text" onClick={update} style={{backgroundColor: "rgb(105, 105, 202)"}}>As delimited text</a> 
+          <a href="#" id="table" onClick={update} >As tabulated data</a>        
+          </>
+          :
+          <>
+          <a href="#" id="text" onClick={update} >As delimited text</a> 
+          <a href="#" id="table" onClick={update} style={{backgroundColor: "rgb(105, 105, 202)"}} >As tabulated data</a>
+          </> 
+        }
+      </p>
     </div>
   );
 }
@@ -74,8 +87,7 @@ function DataInput({settings, setSettings, input, setInput}) {
   }
   
   return(
-    <div className="box">
-      <h2>Input data as delimited text.</h2>
+    <div className="boxcontent">
       <p>Add data in rows. Separate each value in a row using a semicolon (';'). 
         First row is reserved for x-axis values. First column is reserve for y-axis values. 
         All other values list the z values for the x and y coordinate from the column and row in which the data are added. </p>
