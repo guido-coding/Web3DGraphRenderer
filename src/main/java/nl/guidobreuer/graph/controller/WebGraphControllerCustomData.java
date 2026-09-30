@@ -43,7 +43,7 @@ public class WebGraphControllerCustomData {
 	private final Map<String, Bucket> bucketMap = new ConcurrentHashMap<>();
 
 
-	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173"})
+	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173", "https://apps.guidobreuer.nl"})
 	@PostMapping("/customdataimage")
 	public ResponseEntity<String> customDataImage(
 			HttpServletRequest request,
@@ -87,7 +87,7 @@ public class WebGraphControllerCustomData {
 	}
 	
 	
-	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173"})
+	@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173", "https://apps.guidobreuer.nl"})
 	@GetMapping("/retrieve/{key}")
 	public ResponseEntity<Resource> retrieve(
 			HttpServletRequest request,

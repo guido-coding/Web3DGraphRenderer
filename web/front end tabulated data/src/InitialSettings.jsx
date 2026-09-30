@@ -1,3 +1,6 @@
+import {getDefaultGraphData} from './DataInput.jsx';
+
+/*
 let data =  
   [
     [
@@ -35,6 +38,7 @@ let data =
 
     ]
   ];
+*/
 
 export const initialSettings = {
     rotation: 0.5,
@@ -58,7 +62,7 @@ export const initialSettings = {
     xOffset: 0,
     zOffset: 0,
     steps: 10,
-    data: data
+    data: getDefaultGraphData()
 };
 
 export const initialInput = 

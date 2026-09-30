@@ -38,10 +38,34 @@ function initializeInput() {
     };
 }
 
+function transformGraphData(graphData) {
+    let data = []
+    for (let y=0; y<graphData.data.length; y++) {
+        let row = [];
+        for (let x=0; x<graphData.data[y].length; x++) {
+            row.push(
+                {
+                    x: graphData.xvalues[x],
+                    y: graphData.yvalues[y],
+                    z: graphData.data[y][x]
+                }
+            );
+        }
+        data.push(row);
+    }
+    return data;
+}
+
+
+export function getDefaultGraphData() {
+    return transformGraphData(initializeInput());
+}
+
 export function CustomDataInput({settings, setSettings}) {
     const [graphData, setGraphData] = useState(initializeInput);
 
     function parseGraphData() {
+        /*
         let data = []
         for (let y=0; y<graphData.data.length; y++) {
             let row = [];
@@ -56,12 +80,13 @@ export function CustomDataInput({settings, setSettings}) {
             }
             data.push(row);
         }
-
+        */
+        let data = transformGraphData(graphData);
         let settingsTemp = {...settings};
         settingsTemp.data = data;
         setSettings(settingsTemp);
 
-        console.log(graphData);
+        //console.log(graphData);
     }
 
     let rows = [];
