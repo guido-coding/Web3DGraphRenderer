@@ -1,0 +1,47 @@
+.custominputdata p {
+    margin: 0px;
+}
+
+
+
+.ylabelheader {
+    width: 150px;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    text-align: right;
+}
+.ydatalabel {
+    border-right: solid;
+    border-color:rgb(255, 231, 219);
+}
+.ydatalabel input[type=number] {
+    background-color:rgb(255, 231, 219);
+}
+
+.xdatalabel {
+    border-bottom: solid;
+    border-color:rgb(201, 229, 247);
+    padding: 12px;
+}
+.xdatalabel input[type=number] {
+    background-color:rgb(201, 229, 247);
+}
+
+
+
+.inputcellgroup {
+    padding: 10px;
+}
+
+.inputcell {
+    width: 60px;
+    display: inline-block;
+    text-align: center;
+}
+
+input[type=number] {
+    width: 50px;
+}
+

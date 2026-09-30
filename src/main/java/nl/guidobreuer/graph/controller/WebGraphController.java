@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,6 +43,10 @@ public class WebGraphController {
 	
 	private final Map<String, Bucket> bucketMap = new ConcurrentHashMap<>();
 
+	
+	
+	
+	
 	@GetMapping("/image")
 	public ResponseEntity<Resource> start(
 			HttpServletRequest request,
@@ -80,7 +85,7 @@ public class WebGraphController {
 		System.out.println(ip + " --- " + LocalDateTime.now() + ": --- Graph rendered in " + duration + " ms.");
 		
 		
-		return Util.imageToByteOutput(image);
+		return ResponseEntity.ok( Util.imageToByteOutput(image));
 	}
 
 	
@@ -102,9 +107,11 @@ public class WebGraphController {
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Resource> handleInvalidInputException(Exception ex) {
-		System.err.println(ex.getMessage());
+		//System.err.println(ex.getMessage());
+		ex.printStackTrace();
 
-		return Util.imageToByteOutput(Util.getErrorImage(ex.getMessage()));
+		return ResponseEntity.internalServerError().body(
+				Util.imageToByteOutput(Util.getErrorImage(ex.getMessage()) ));
 	}
 
 		
