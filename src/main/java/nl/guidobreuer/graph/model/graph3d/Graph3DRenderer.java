@@ -42,6 +42,12 @@ public class Graph3DRenderer {
 	private boolean drawGrid = true;
 	private boolean showLabels = true;
 	
+	private String xLabel = "x";
+	private String yLabel = "y";
+	private String zLabel = "z";
+	
+
+
 	public static final double CAMERA_DISTANCE_OBJECT_SIZE_RATIO = 5;
 	
 	public Graph3DRenderer(Graph graph) {
@@ -143,6 +149,20 @@ public class Graph3DRenderer {
 		}
 	}
 	
+	public void setXLabel(String xLabel) {
+		this.xLabel = xLabel;
+	}
+
+	public void setYLabel(String yLabel) {
+		this.yLabel = yLabel;
+	}
+
+	public void setZLabel(String zLabel) {
+		this.zLabel = zLabel;
+	}
+	
+	
+	
 	public Image getGraphImage() {
 		return getGraphImage(width, height);
 	}
@@ -185,19 +205,19 @@ public class Graph3DRenderer {
 			double yStepSize = (graph.maxY - graph.minY)/ 10; 
 			
 			p = scene.getLocationOnScreen(width, height, graph.minX - xStepSize, graph.yOffset, graph.zOffset);
-			g.drawString("x (" + graph.minX + ")", p.x, p.y);
+			g.drawString(xLabel + " (" + graph.minX + ")", p.x, p.y);
 			p = scene.getLocationOnScreen(width, height, graph.maxX + xStepSize, graph.yOffset, graph.zOffset);
-			g.drawString("x (" + graph.maxX + ")", p.x, p.y);
+			g.drawString(xLabel + " (" + graph.maxX + ")", p.x, p.y);
 			
 			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.minY - yStepSize, graph.zOffset);
-			g.drawString("y (" + graph.minY + ")", p.x, p.y);
+			g.drawString(yLabel + " (" + graph.minY + ")", p.x, p.y);
 			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.maxY + yStepSize, graph.zOffset);
-			g.drawString("y (" + graph.maxY + ")", p.x, p.y);
+			g.drawString(yLabel + " (" + graph.maxY + ")", p.x, p.y);
 			
 			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.maxZ);
-			g.drawString("z (" + graph.maxZ / graph.ZscalingFactor + ")", p.x, p.y);
+			g.drawString(zLabel + " (" + graph.maxZ / graph.ZscalingFactor + ")", p.x, p.y);
 			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.minZ);
-			g.drawString("z (" + graph.minZ / graph.ZscalingFactor + ")", p.x, p.y);
+			g.drawString(zLabel + " (" + graph.minZ / graph.ZscalingFactor + ")", p.x, p.y);
 		}
 		
 		if (graphLabel.isPresent()) {			

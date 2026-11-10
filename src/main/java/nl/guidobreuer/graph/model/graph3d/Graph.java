@@ -33,6 +33,7 @@ abstract class Graph implements Graph3DObject {
 		yOffset = 0;
 		xOffset = 0;
 		zOffset = 0;
+		steps = 10;
 	}
 	
 	@Override
@@ -107,7 +108,6 @@ abstract class Graph implements Graph3DObject {
 			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, yOffset, z, xOffset, yOffset, z+stepSize, maxDim/AXIS_TO_GRAPH_SIZE));
 		}
 		
-
 		
 		return axesObjects;
 	}
