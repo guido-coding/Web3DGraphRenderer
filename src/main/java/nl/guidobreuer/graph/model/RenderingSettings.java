@@ -17,6 +17,7 @@ public class RenderingSettings {
 	private final int transparency;
 	private final double yOffset, xOffset, zOffset;
 	private final int steps;
+	private final String xLabel, yLabel, zLabel;
 	
 	public RenderingSettings(Map<String, String> input) throws InvalidInputException {
 		
@@ -28,6 +29,10 @@ public class RenderingSettings {
 			equation = equationTemp;
 		}
 		
+		
+		xLabel = input.getOrDefault("xlabel", "x");
+		yLabel = input.getOrDefault("ylabel", "y");
+		zLabel = input.getOrDefault("zlabel", "z");
 		
 		rotation = extractDouble(input, "rotation", 0.3);
 		vrot = extractDouble(input, "vrot", 0.0001, 1, 0.3);
@@ -206,6 +211,18 @@ public class RenderingSettings {
 
 	public int getSteps() {
 		return steps;
+	}
+
+	public String getXLabel() {
+		return xLabel;
+	}
+
+	public String getYLabel() {
+		return yLabel;
+	}
+
+	public String getZLabel() {
+		return zLabel;
 	}
 
 	

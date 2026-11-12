@@ -26,7 +26,10 @@ function handleSubmit() {
     url.searchParams.append('minz', document.form.minz.value); 
     url.searchParams.append('maxx', document.form.maxx.value); 
     url.searchParams.append('maxy', document.form.maxy.value); 
-    url.searchParams.append('maxz', document.form.maxz.value);     
+    url.searchParams.append('maxz', document.form.maxz.value);   
+    url.searchParams.append('xlabel', document.form.xlabel.value); 
+    url.searchParams.append('ylabel', document.form.ylabel.value); 
+    url.searchParams.append('zlabel', document.form.zlabel.value);    
     if (document.getElementById("autoadjustz").checked) {
         url.searchParams.append('autoadjustz', 'true');
     } else {

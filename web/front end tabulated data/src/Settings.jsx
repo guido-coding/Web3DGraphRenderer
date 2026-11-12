@@ -14,17 +14,20 @@ export function Settings({settings, setSettings}) {
             <p>
                 <Label text="X-axis" />
                 <TextInput label="min X" id="minX" settings={settings} setSettings={setSettings} />|
-                <TextInput label="max X" id="maxX" settings={settings} setSettings={setSettings} />
+                <TextInput label="max X" id="maxX" settings={settings} setSettings={setSettings} />| 
+                <TextInput label="X label" id="xlabel" settings={settings} setSettings={setSettings} />
             </p>
             <p>
                 <Label text="Y-axis" />
                 <TextInput label="min Y" id="minY" settings={settings} setSettings={setSettings} />|
-                <TextInput label="max Y" id="maxY" settings={settings} setSettings={setSettings} />
+                <TextInput label="max Y" id="maxY" settings={settings} setSettings={setSettings} />|
+                <TextInput label="Y label" id="ylabel" settings={settings} setSettings={setSettings} />                
             </p>
             <p>
                 <Label text="Z-axis" />
                 <TextInput label="min Z" id="minZ" settings={settings} setSettings={setSettings} />|
                 <TextInput label="max Z" id="maxZ" settings={settings} setSettings={setSettings} />|
+                <TextInput label="Z label" id="zlabel" settings={settings} setSettings={setSettings} />|                
                 <CheckBoxInput label="Auto adjust" id="autoAdjustZ" settings={settings} setSettings={setSettings} />
             </p>
             <p>
