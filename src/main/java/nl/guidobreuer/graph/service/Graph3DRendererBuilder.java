@@ -64,6 +64,10 @@ public class Graph3DRendererBuilder {
 		renderer.drawAxis(settings.showAxis());
 		renderer.drawGrid(settings.showGrid());
 		
+		renderer.setXLabel(settings.xlabel());
+		renderer.setYLabel(settings.ylabel());
+		renderer.setZLabel(settings.zlabel());
+		
 		return renderer;
 	}
 	

@@ -188,6 +188,10 @@ public class Graph3DRenderer {
 		
 		Image image = scene.next3DView(width, height);
 		
+		if (Thread.interrupted()) {
+			throw new IllegalStateException("Request exceeded maximum duration.");
+		}
+		
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.BLACK);

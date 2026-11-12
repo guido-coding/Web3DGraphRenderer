@@ -22,6 +22,9 @@ public record CustomGraphData(
 		double yOffset, 
 		double xOffset, 
 		double zOffset,
+		String xlabel,
+		String ylabel,
+		String zlabel,
 		int steps,
 		Graph3DDatapoint[][] data
 		) {
@@ -64,6 +67,10 @@ public record CustomGraphData(
 		
 		if (transparency < 0) transparency = 0;
 		if (transparency > 255) transparency = 255;
+		
+		if (xlabel == null) xlabel = "x";
+		if (ylabel == null) ylabel = "y";
+		if (zlabel == null) zlabel = "z";
 		
 		if (steps < 10) steps = 10;
 		if (steps > 100) steps = 100;

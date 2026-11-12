@@ -62,6 +62,9 @@ export const initialSettings = {
     xOffset: 0,
     zOffset: 0,
     steps: 10,
+    xlabel: "x",
+    ylabel: "y",
+    zlabel: "z",
     data: getDefaultGraphData()
 };
 
