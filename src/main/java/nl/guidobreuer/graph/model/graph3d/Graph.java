@@ -8,6 +8,7 @@ import nl.guidobreuer.graph.model.Graph3DDatapoint;
 import render3d.ColorAdjusterFactory;
 import render3d.Object3D;
 import render3d.Object3DFactory;
+import render3d.Point3D;
 
 /*
  * TODO refactor ZscalingFactor
@@ -15,8 +16,12 @@ import render3d.Object3DFactory;
 abstract class Graph implements Graph3DObject {
 	
 	public static final int AXIS_TO_GRAPH_SIZE = 200;
+	public static final int STANDARD_AXIS_DIMENSION = 10;
 	
-	double minX, minY, maxX, maxY, minZ, maxZ, ZscalingFactor;
+	private double minX, minY, maxX, maxY;
+	private double xScaling, yScaling;
+	private double minZ, maxZ;
+	double ZscalingFactor;
 	protected boolean autoAdjustZ = true;
 	protected int alpha = 200;
 	protected double yOffset, xOffset, zOffset;
@@ -34,7 +39,59 @@ abstract class Graph implements Graph3DObject {
 		xOffset = 0;
 		zOffset = 0;
 		steps = 10;
+		xScaling = 1;
+		yScaling = 1;
 	}
+	
+	private void updateScaling() {
+		xScaling = STANDARD_AXIS_DIMENSION / (maxX - minX);
+		yScaling = STANDARD_AXIS_DIMENSION / (maxY - minY);
+	}
+	
+	void setBounds(double minX, double maxX, double minY, double maxY) {
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = minY;
+		this.maxY = maxY;
+		autoAdjustZ = true;
+		updateScaling();
+	}
+	
+	void setBounds(double minX, double maxX, double minY, double maxY, double minZ, double maxZ) {
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = minY;
+		this.maxY = maxY;
+		this.minZ = minZ;
+		this.maxZ = maxZ;
+		autoAdjustZ = false;
+		updateScaling();
+	}
+	
+	record Coordinate(double x, double y, double z) {};
+	
+	Coordinate getCenter() {
+		double averageX = (maxX + minX)/2;
+		double averageY = (maxY + minY)/2;
+		double averageZ = (maxZ + minZ)/2;
+		return new Coordinate(
+				averageX*xScaling, 
+				averageY*yScaling, 
+				averageZ);
+	}
+	
+	double getMaxSceneX() { return maxX * xScaling;}
+	double getMinSceneX() { return minX * xScaling;}
+	double getMaxSceneY() { return maxY * yScaling;}
+	double getMinSceneY() { return minY * yScaling;}
+	double minX() {return minX;}
+	double maxX() {return maxX;}
+	double minY() {return minY;}
+	double maxY() {return maxY;}
+	double maxZ() {return maxZ;}
+	double minZ() {return minZ;}
+	
+	
 	
 	@Override
 	public List<Object3D> getObjects() {
@@ -86,26 +143,26 @@ abstract class Graph implements Graph3DObject {
 	private List<Object3D> getAxes(double minX, double maxX, double minY, double maxY, double minZ, double maxZ) {
 		List<Object3D> axesObjects = new ArrayList<Object3D>();
 		
-		
+		/*
 		double xDim = maxX - minX;
 		double yDim = maxY - minY;
 		double maxDim = xDim > yDim ? xDim : yDim;
-		
+		*/
 		double LowestZ = minZ < zOffset ? minZ : zOffset;
 		double highestZ = maxZ > zOffset ? maxZ : zOffset;
 		
 		int steps = 20;
 		double stepSize = (maxX-minX)/steps;
 		for (double x = minX; x < maxX; x += stepSize) {
-			axesObjects.add(Object3DFactory.createRectangularPrism(x, yOffset, zOffset, x+stepSize, yOffset, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
+			axesObjects.add(Object3DFactory.createRectangularPrism(x*xScaling, yOffset*yScaling, zOffset, (x+stepSize)*xScaling, yOffset*yScaling, zOffset, STANDARD_AXIS_DIMENSION/AXIS_TO_GRAPH_SIZE));
 		}
 		stepSize = (maxY-minY)/steps;
 		for (double y = minY; y < maxY; y += stepSize) {
-			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, y, zOffset, xOffset, y+stepSize, zOffset, maxDim/AXIS_TO_GRAPH_SIZE));
+			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset*xScaling, y*yScaling, zOffset, xOffset*xScaling, (y+stepSize)*yScaling, zOffset, STANDARD_AXIS_DIMENSION/AXIS_TO_GRAPH_SIZE));
 		}
 		stepSize = (highestZ-LowestZ)/steps;
 		for (double z = LowestZ; z < highestZ; z += stepSize) {
-			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset, yOffset, z, xOffset, yOffset, z+stepSize, maxDim/AXIS_TO_GRAPH_SIZE));
+			axesObjects.add(Object3DFactory.createRectangularPrism(xOffset*xScaling, yOffset*yScaling, z, xOffset*xScaling, yOffset*yScaling, z+stepSize, STANDARD_AXIS_DIMENSION/AXIS_TO_GRAPH_SIZE));
 		}
 		
 		
@@ -121,8 +178,8 @@ abstract class Graph implements Graph3DObject {
 		for (double x = minX; x<maxX; x += xStepSize) {
 			for (double y=minY; y<maxY; y += yStepSize) {
 				Object3D o = Object3DFactory.createPolygon3D(
-						new double[] {x, x, x+xStepSize, x+xStepSize}, 
-						new double[] {y, y+yStepSize, y+yStepSize, y}, 
+						new double[] {x*xScaling, x*xScaling, (x+xStepSize)*xScaling, (x+xStepSize)*xScaling}, 
+						new double[] {y*yScaling, (y+yStepSize)*yScaling, (y+yStepSize)*yScaling, y*yScaling}, 
 						new double[] {0+zOffset,0+zOffset,0+zOffset,0+zOffset}, 
 						new Color(0,0,255,10));
 				gridObjects.add(o);
@@ -150,8 +207,8 @@ abstract class Graph implements Graph3DObject {
 				
 				graphObjects.add(
 					Object3DFactory.createPolygon3D(
-						new double[] {datapoints[y][x].x(), datapoints[y+1][x].x(), datapoints[y+1][x+1].x(), datapoints[y][x+1].x()}, 
-						new double[] {datapoints[y][x].y(), datapoints[y+1][x].y(), datapoints[y+1][x+1].y(), datapoints[y][x+1].y()}, 
+						new double[] {datapoints[y][x].x()*xScaling, datapoints[y+1][x].x()*xScaling, datapoints[y+1][x+1].x()*xScaling, datapoints[y][x+1].x()*xScaling}, 
+						new double[] {datapoints[y][x].y()*yScaling, datapoints[y+1][x].y()*yScaling, datapoints[y+1][x+1].y()*yScaling, datapoints[y][x+1].y()*yScaling}, 
 						new double[] {datapoints[y][x].z(), datapoints[y+1][x].z(), datapoints[y+1][x+1].z(), datapoints[y][x+1].z()}, 
 						new Color(100,100,255,alpha))
 					.setColorAdjuster(ColorAdjusterFactory.getType4ColorAdjuster(minZ, maxZ)));
@@ -166,6 +223,8 @@ abstract class Graph implements Graph3DObject {
 		ALL_WITHIN,
 		ANY_WITHIN
 	}
+	
+	
 	
 	private record Pair(double x, double y) {}
 	
