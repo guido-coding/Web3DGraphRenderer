@@ -39,7 +39,7 @@ public class CustomGraph extends Graph {
 	
 
 	@Override
-	protected Graph3DDatapoint[][] getGraphDatapoints(double minX, double maxX, double minY, double maxY, int steps, double ZscalingFactor) {
+	protected Graph3DDatapoint[][] getGraphDatapoints(double minX, double maxX, double minY, double maxY, int steps) {
 
 		Graph3DDatapoint[][] datapoints = new Graph3DDatapoint[steps+1][steps+1];
 
@@ -52,7 +52,7 @@ public class CustomGraph extends Graph {
 				datapoints[y][x] = new Graph3DDatapoint(
 						xValue, 
 						yValue, 
-						ZscalingFactor*getZ(xValue, yValue));
+						getZ(xValue, yValue));
 
 			}
 		}

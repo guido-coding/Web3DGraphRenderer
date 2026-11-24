@@ -31,7 +31,6 @@ import render3d.Scene;
  */
 public class Graph3DRenderer {
 	
-	//private final Scene scene;
 	private final Graph graph;
 	
 	private double r, theta, phi;
@@ -48,7 +47,6 @@ public class Graph3DRenderer {
 	private String zLabel = "z";
 	
 
-
 	public static final double CAMERA_DISTANCE_OBJECT_SIZE_RATIO = 5;
 	
 	public Graph3DRenderer(Graph graph) {
@@ -60,10 +58,6 @@ public class Graph3DRenderer {
 		
 		width = 1000;
 		height = 1000;
-		
-		//scene = createScene();
-
-
 	}
 	
 	private Scene createScene() {
@@ -117,9 +111,7 @@ public class Graph3DRenderer {
 	}
 	
 	public void setOffsets(double xOffset, double yOffset, double zOffset) {
-		graph.xOffset = xOffset;
-		graph.yOffset = yOffset;
-		graph.zOffset = zOffset;
+		graph.setOffsets(xOffset, yOffset, zOffset);
 	}
 	
 	public void setSteps(int steps) {
@@ -127,7 +119,7 @@ public class Graph3DRenderer {
 	}
 	
 	public void setZScalingFactor(double scalingFactor) {
-		graph.ZscalingFactor = scalingFactor;
+		graph.setZScalingFactor(scalingFactor);
 	}
 	
 	public void setTransparency(int alpha) {
@@ -164,20 +156,7 @@ public class Graph3DRenderer {
 		scene.addObjects(graph.getObjects(drawAxis, drawGrid));
 		
 		//scene.report();
-		
-		/*
-		double averageX = (graph.maxX + graph.minX)/2;
-		double averageY = (graph.maxY + graph.minY)/2;
-		double averageZ = (graph.maxZ+graph.minZ)/2;
-		*/
-	
-		/*
-		double xDim = graph.maxX - graph.minX;
-		double yDim = graph.maxY - graph.minY;
-		double maxDim = xDim > yDim ? xDim : yDim;
-		*/
-		
-		//double zoom = (r/100) * maxDim * CAMERA_DISTANCE_OBJECT_SIZE_RATIO;
+
 		double zoom = (r/100) * Graph.STANDARD_AXIS_DIMENSION * CAMERA_DISTANCE_OBJECT_SIZE_RATIO;
 		
 		Coordinate center = graph.getCenter();
@@ -205,20 +184,20 @@ public class Graph3DRenderer {
 			double xStepSize = (graph.getMaxSceneX() - graph.getMinSceneX())/ 10;
 			double yStepSize = (graph.getMaxSceneY() - graph.getMinSceneY())/ 10; 
 			
-			p = scene.getLocationOnScreen(width, height, graph.getMinSceneX() - xStepSize, graph.yOffset, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.getMinSceneX() - xStepSize, graph.getYOffsetScene(), graph.getZOffsetScene());
 			g.drawString(xLabel + " (" + graph.minX() + ")", p.x, p.y);
-			p = scene.getLocationOnScreen(width, height, graph.getMaxSceneX() + xStepSize, graph.yOffset, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.getMaxSceneX() + xStepSize, graph.getYOffsetScene(), graph.getZOffsetScene());
 			g.drawString(xLabel + " (" + graph.maxX() + ")", p.x, p.y);
 			
-			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.getMinSceneY() - yStepSize, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.getXOffsetScene(), graph.getMinSceneY() - yStepSize, graph.getZOffsetScene());
 			g.drawString(yLabel + " (" + graph.minY() + ")", p.x, p.y);
-			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.getMaxSceneY() + yStepSize, graph.zOffset);
+			p = scene.getLocationOnScreen(width, height, graph.getXOffsetScene(), graph.getMaxSceneY() + yStepSize, graph.getZOffsetScene());
 			g.drawString(yLabel + " (" + graph.maxY() + ")", p.x, p.y);
 			
-			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.maxZ());
-			g.drawString(zLabel + " (" + graph.maxZ() / graph.ZscalingFactor + ")", p.x, p.y);
-			p = scene.getLocationOnScreen(width, height, graph.xOffset, graph.yOffset, graph.minZ());
-			g.drawString(zLabel + " (" + graph.minZ() / graph.ZscalingFactor + ")", p.x, p.y);
+			p = scene.getLocationOnScreen(width, height, graph.getXOffsetScene(), graph.getYOffsetScene(), graph.getMaxSceneZ());
+			g.drawString(zLabel + " (" + graph.maxZ() + ")", p.x, p.y);
+			p = scene.getLocationOnScreen(width, height, graph.getXOffsetScene(), graph.getYOffsetScene(), graph.getMinSceneZ());
+			g.drawString(zLabel + " (" + graph.minZ() + ")", p.x, p.y);
 		}
 		
 		if (graphLabel.isPresent()) {			

@@ -13,8 +13,7 @@ public class DatasetGraph extends Graph {
 	}
 
 	@Override
-	protected Graph3DDatapoint[][] getGraphDatapoints(double minX, double maxX, double minY, double maxY, int steps,
-			double ZscalingFactor) {
+	protected Graph3DDatapoint[][] getGraphDatapoints(double minX, double maxX, double minY, double maxY, int steps) {
 		
 		Graph3DDatapoint[][] datapoints = new Graph3DDatapoint[data.length][data[0].length];
 		
@@ -23,7 +22,7 @@ public class DatasetGraph extends Graph {
 				datapoints[y][x] = new Graph3DDatapoint(
 						 data[y][x].x(),
 						 data[y][x].y(),
-						 data[y][x].z() * ZscalingFactor
+						 data[y][x].z()
 					);
 			}
 		}
