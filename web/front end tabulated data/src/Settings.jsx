@@ -7,31 +7,34 @@ export function Settings({settings, setSettings}) {
         <div className="box">
             <h2>Settings</h2>
             <p>
-                <Label text="Graph image size" />
-                <TextInput label="width" id="width" settings={settings} setSettings={setSettings} />|
-                <TextInput label="height" id="height" settings={settings} setSettings={setSettings} />
+                <Label text="Graph image size (pixels)" />
+                <TextInput label="Image width" id="width" settings={settings} setSettings={setSettings} />|
+                <TextInput label="Image height" id="height" settings={settings} setSettings={setSettings} />
             </p>
             <p>
                 <Label text="X-axis" />
-                <TextInput label="min X" id="minX" settings={settings} setSettings={setSettings} />|
-                <TextInput label="max X" id="maxX" settings={settings} setSettings={setSettings} />| 
-                <TextInput label="X label" id="xlabel" settings={settings} setSettings={setSettings} />
+                <TextInput label="min X-axis value" id="minX" settings={settings} setSettings={setSettings} />|
+                <TextInput label="max X-axis value" id="maxX" settings={settings} setSettings={setSettings} />| 
+                <TextInput label="X-axis label" id="xlabel" settings={settings} setSettings={setSettings} />
             </p>
             <p>
                 <Label text="Y-axis" />
-                <TextInput label="min Y" id="minY" settings={settings} setSettings={setSettings} />|
-                <TextInput label="max Y" id="maxY" settings={settings} setSettings={setSettings} />|
-                <TextInput label="Y label" id="ylabel" settings={settings} setSettings={setSettings} />                
+                <TextInput label="min Y-axis value" id="minY" settings={settings} setSettings={setSettings} />|
+                <TextInput label="max Y-axis value" id="maxY" settings={settings} setSettings={setSettings} />|
+                <TextInput label="Y-axis label" id="ylabel" settings={settings} setSettings={setSettings} />                
             </p>
             <p>
                 <Label text="Z-axis" />
-                <TextInput label="min Z" id="minZ" settings={settings} setSettings={setSettings} />|
-                <TextInput label="max Z" id="maxZ" settings={settings} setSettings={setSettings} />|
-                <TextInput label="Z label" id="zlabel" settings={settings} setSettings={setSettings} />|                
-                <CheckBoxInput label="Auto adjust" id="autoAdjustZ" settings={settings} setSettings={setSettings} />
+                <TextInput label="min Z-axis value" id="minZ" settings={settings} setSettings={setSettings} />|
+                <TextInput label="max Z-axis value" id="maxZ" settings={settings} setSettings={setSettings} />|
+                <TextInput label="Z-axis label" id="zlabel" settings={settings} setSettings={setSettings} />
+            </p>
+            <p>                
+                <Label text="" />
+                <CheckBoxInput label="Auto adjust Z-axis min and max values to data" id="autoAdjustZ" settings={settings} setSettings={setSettings} />
             </p>
             <p>
-                <Label text="Offset of axes" />
+                <Label text="Intersection of axes at" />
                 <TextInput label="X-axis" id="xOffset" settings={settings} setSettings={setSettings} />|
                 <TextInput label="Y-axis" id="yOffset" settings={settings} setSettings={setSettings} />|
                 <TextInput label="Z-axis" id="zOffset" settings={settings} setSettings={setSettings} />                
