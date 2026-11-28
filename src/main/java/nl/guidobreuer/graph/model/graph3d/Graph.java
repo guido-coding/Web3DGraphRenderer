@@ -26,7 +26,9 @@ abstract class Graph implements Graph3DObject {
 	int steps;
 	
 
-
+	/*
+	 * Initialize default settings
+	 */
 	Graph() {
 		minX = -10;
 		minY = -10;
@@ -80,6 +82,10 @@ abstract class Graph implements Graph3DObject {
 	
 	record Coordinate(double x, double y, double z) {};
 	
+	/**
+	 * Get center position (x, y, z coordinates) of all objects in the graph.
+	 * @return
+	 */
 	Coordinate getCenter() {
 		double averageX = (maxX + minX)/2;
 		double averageY = (maxY + minY)/2;
@@ -130,6 +136,12 @@ abstract class Graph implements Graph3DObject {
 		}
 	}
 
+	/**
+	 * Get all objects to be rendered
+	 * @param showAxis whether or not axis are rendered
+	 * @param showGrid whether or not the grid is rendered
+	 * @return
+	 */
 	public List<Object3D> getObjects(boolean showAxis, boolean showGrid) {
 		Graph3DDatapoint[][] datapoints = getGraphDatapoints(minX, maxX, minY, maxY, steps);
 		initializeZMinMax(datapoints);

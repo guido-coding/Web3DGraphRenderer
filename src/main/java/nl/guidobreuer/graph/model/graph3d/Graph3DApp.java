@@ -19,12 +19,14 @@ import javax.swing.JPanel;
 import equationparser.InvalidEquationException;
 import render3d.Scene;
 
-
+/**
+ * Standalone class for testing purposes.
+ */
 @SuppressWarnings("serial")
-public class Graph3D extends JPanel {
+public class Graph3DApp extends JPanel {
 
 	public static void main(String arg[]) throws InvalidEquationException {
-		new Graph3D();
+		new Graph3DApp();
 	}
 	
 	
@@ -40,7 +42,7 @@ public class Graph3D extends JPanel {
 	
 	private final String equation;
 	
-	Graph3D() throws InvalidEquationException {
+	Graph3DApp() throws InvalidEquationException {
 		scene = new Scene();
 		
 		equation = "(0.1*y^2 - 0.1*x^2 + 0.1*x*y + 0.1)";

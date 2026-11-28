@@ -6,6 +6,10 @@ public class DatasetGraph extends Graph {
 	
 	private final Graph3DDatapoint[][] data;
 	
+	/**
+	 * Graph implementation for custom data
+	 * @param data
+	 */
 	public DatasetGraph(Graph3DDatapoint[][] data) {
 		if (data == null) throw new IllegalArgumentException("Data cannot be null");
 		
@@ -13,6 +17,9 @@ public class DatasetGraph extends Graph {
 	}
 
 	@Override
+	/**
+	 * Create deep clone of 'data' and return clone.
+	 */
 	protected Graph3DDatapoint[][] getGraphDatapoints(double minX, double maxX, double minY, double maxY, int steps) {
 		
 		Graph3DDatapoint[][] datapoints = new Graph3DDatapoint[data.length][data[0].length];

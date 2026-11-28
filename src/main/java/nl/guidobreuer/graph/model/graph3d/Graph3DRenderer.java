@@ -12,23 +12,7 @@ import equationparser.InvalidEquationException;
 import nl.guidobreuer.graph.model.graph3d.Graph.Coordinate;
 import render3d.Scene;
 
-/**
- * Settings / adjustments
- * 
- * -equation							-done
- * -rotation, phi, r (zoom)				-done
- * -rendering width and height			-done
- * -min/max x, y, z						-done
- * -auto adjust z						-done
- * -scaling factor z					-done
- * -show axis, show grid, show labels	-done
- * -transparency						-done
- * -y offset x-axis						-done
- * -x offset y-axis						-done
- * -z offset x-axis + y-axis + grid		-done
- * -stepsize							-done
- * 
- */
+
 public class Graph3DRenderer {
 	
 	private final Graph graph;
@@ -49,6 +33,11 @@ public class Graph3DRenderer {
 
 	public static final double CAMERA_DISTANCE_OBJECT_SIZE_RATIO = 5;
 	
+	
+	/**
+	 * Create Graph3DRenderer using a Graph object
+	 * @param graph
+	 */
 	public Graph3DRenderer(Graph graph) {
 		this.graph = graph;
 		
@@ -60,24 +49,24 @@ public class Graph3DRenderer {
 		height = 1000;
 	}
 	
-	private Scene createScene() {
-		Scene scene = new Scene();
-		
-		Scene.MAX_DRAW_DISTANCE = -1;
-		Scene.DRAW_POLYGON_COUNTOUR = true;
-		Scene.REJECT_FACES_BEHIND = false;
-		Scene.ANTI_ALIAS = true;
-		Scene.DRAW_MINIMAP = false;
-		
-		return scene;
-	}
 	
-	
+	/**
+	 * Create a Graph3DRenderer object using a String containing an equation
+	 * @param equation
+	 * @throws InvalidEquationException
+	 */
 	public Graph3DRenderer(String equation) throws InvalidEquationException {
 		this(new CustomGraph(equation));
 		graphLabel = Optional.of("Z = " + equation);
 	}
 	
+	
+
+	
+	
+	/*
+	 * Setters for the various properties
+	 */
 	public void setRotation(double rotation) {
 		theta = rotation * Math.PI;
 	}
@@ -146,10 +135,20 @@ public class Graph3DRenderer {
 	
 	
 	
+	/**
+	 * Render image using default image dimensions
+	 * @return
+	 */
 	public Image getGraphImage() {
 		return getGraphImage(width, height);
 	}
 	
+	/**
+	 * Render image using specified image dimension
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	public Image getGraphImage(int width, int height) {
 		Scene scene = createScene();
 		
@@ -207,6 +206,18 @@ public class Graph3DRenderer {
 		g.dispose();
 		
 		return image;
+	}
+	
+	private Scene createScene() {
+		Scene scene = new Scene();
+		
+		Scene.MAX_DRAW_DISTANCE = -1;
+		Scene.DRAW_POLYGON_COUNTOUR = true;
+		Scene.REJECT_FACES_BEHIND = false;
+		Scene.ANTI_ALIAS = true;
+		Scene.DRAW_MINIMAP = false;
+		
+		return scene;
 	}
 	
 

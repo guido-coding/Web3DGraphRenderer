@@ -19,6 +19,37 @@ public class RenderingSettings {
 	private final int steps;
 	private final String xLabel, yLabel, zLabel;
 	
+	/**
+	 * Create RenderingSettings object using a key-value pair map. Expects the following keys:
+	 * -equation (default equation is used when absent)
+	 * -xlabel (optional)
+	 * -ylabel (optional)
+	 * -zlabel (optional)
+	 * -rotation (optional)
+	 * -vrot (optional)
+	 * -zoom (optional)
+	 * -width (optional)
+	 * -height (optional)
+	 * -minx  (optional)
+	 * -maxx  (optional)
+	 * -miny (optional)
+	 * -maxy (optional)
+	 * -minz (optional)
+	 * -maxz (optional)
+	 * -autoadjustz (optional)
+	 * -scalingfactorz (optional)
+	 * -showaxis (optional)
+	 * -showgrid (optional)
+	 * -showlabel (optional)
+	 * -alpha (optional)
+	 * -xoffset (optional)
+	 * -yoffset (optional)
+	 * -zoffset (optional)
+	 * -steps (optional)
+	 * 
+	 * @param input map containing key-value pairs
+	 * @throws InvalidInputException never
+	 */
 	public RenderingSettings(Map<String, String> input) throws InvalidInputException {
 		
 		String equationTemp = input.get("equation");

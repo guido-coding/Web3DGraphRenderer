@@ -1,13 +1,17 @@
-package nl.guidobreuer.graph.service;
+package nl.guidobreuer.graph.model;
 
 import equationparser.InvalidEquationException;
-import nl.guidobreuer.graph.model.CustomGraphData;
-import nl.guidobreuer.graph.model.RenderingSettings;
 import nl.guidobreuer.graph.model.graph3d.DatasetGraph;
 import nl.guidobreuer.graph.model.graph3d.Graph3DRenderer;
 
 public class Graph3DRendererBuilder {
 
+	/**
+	 * Create a Graph3DRenderer object using a RenderingSettings object
+	 * @param settings
+	 * @return
+	 * @throws InvalidEquationException in case provided equation is not a valid equation (parsing of equation fails)
+	 */
 	public static Graph3DRenderer createGraph3DRenderer(RenderingSettings settings) throws InvalidEquationException {
 		Graph3DRenderer renderer = new Graph3DRenderer(settings.getEquation());
 		
@@ -39,7 +43,11 @@ public class Graph3DRendererBuilder {
 	}
 	
 	
-	
+	/**
+	 * Create a Graph3DRenderer object using a CustomGraphData object
+	 * @param settings
+	 * @return
+	 */
 	public static Graph3DRenderer createGraph3DRendererCustomData(CustomGraphData settings) {
 		Graph3DRenderer renderer = new Graph3DRenderer(new DatasetGraph(settings.data()));
 		

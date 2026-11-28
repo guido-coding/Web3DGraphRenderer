@@ -12,21 +12,13 @@ import javax.imageio.ImageIO;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 
-public class Util {
+public class ImageToStream {
 
 	public static Resource imageToByteOutput(Image image) {
 		try {
 			byte[] array = toPNGBytes(image);
 			Resource resource = new ByteArrayResource(array);
-			/*ResponseEntity<Resource> ret = ResponseEntity.ok()
-					.contentType(MediaType.IMAGE_PNG)
-					.body(resource);
-			
-			return ret;
-			*/
 			return resource;
 		} catch(Exception ex) {
 			ex.printStackTrace();

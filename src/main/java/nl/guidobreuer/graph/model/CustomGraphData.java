@@ -1,6 +1,11 @@
 package nl.guidobreuer.graph.model;
 
-
+/**
+ * Create CustomGraphData object
+ * 
+ * throws NullPointerException when data is null
+ * throws IllegalStateException when data has less than 2 rows / columns or when not all columns are of the same length
+ */
 public record CustomGraphData(
 		double rotation, 
 		double vrot, 

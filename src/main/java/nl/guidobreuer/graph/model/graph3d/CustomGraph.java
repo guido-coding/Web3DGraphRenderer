@@ -7,17 +7,15 @@ import equationparser.EquationParser;
 import equationparser.InvalidEquationException;
 import nl.guidobreuer.graph.model.Graph3DDatapoint;
 
-
+/**
+ * Implementation of Graph to render graphs based on equations as input.
+ */
 public class CustomGraph extends Graph {
 	
 	private final EquationParser parser;
 	
-	//private double[][] zValues;
-	
 	public CustomGraph(String equation) throws InvalidEquationException {
 		parser = new EquationParser(equation);
-		
-		
 	}
 
 	private double getZ(double x, double y) {
@@ -39,6 +37,10 @@ public class CustomGraph extends Graph {
 	
 
 	@Override
+	/**
+	 * Calculate grid for x-y pairs using the min/max values and number of setps.
+	 * Calculate the z value for each x-y pair using the provided equation.
+	 */
 	protected Graph3DDatapoint[][] getGraphDatapoints(double minX, double maxX, double minY, double maxY, int steps) {
 
 		Graph3DDatapoint[][] datapoints = new Graph3DDatapoint[steps+1][steps+1];
@@ -60,30 +62,6 @@ public class CustomGraph extends Graph {
 		return datapoints;
 	}
 	
-	/*
-	private void initializeZValues() {
-		zValues = new double[steps+1][steps+1];
-		
-		if (autoAdjustZ) {			
-			minZ = ZscalingFactor*getZ(
-					toX(0),
-					toY(0));
-			maxZ = minZ;
-		}
-		
-		for (int x=0; x<zValues.length; x++) {
-			for (int y=0; y<zValues[0].length; y++) {
-				zValues[x][y] = ZscalingFactor*getZ(
-						toX(x),
-						toY(y));
-				if (autoAdjustZ) {					
-					if (zValues[x][y] < minZ) minZ = zValues[x][y];
-					if (zValues[x][y] > maxZ) maxZ = zValues[x][y];
-				}
-			}
-		}
-	}
-	*/
 	
 	private double toX(int x, double minX, double maxX, int steps) {
 		return minX + (maxX-minX)*x/(steps);
