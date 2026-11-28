@@ -1,6 +1,4 @@
-package nl.guidobreuer.graph.model.graph3d;
-
-import nl.guidobreuer.graph.model.Graph3DDatapoint;
+package nl.guidobreuer.graph.model;
 
 public class DatasetGraph extends Graph {
 	

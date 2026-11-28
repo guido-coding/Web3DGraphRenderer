@@ -1,11 +1,10 @@
-package nl.guidobreuer.graph.model.graph3d;
+package nl.guidobreuer.graph.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import equationparser.EquationParser;
 import equationparser.InvalidEquationException;
-import nl.guidobreuer.graph.model.Graph3DDatapoint;
 
 /**
  * Implementation of Graph to render graphs based on equations as input.

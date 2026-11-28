@@ -1,4 +1,4 @@
-package nl.guidobreuer.graph.model.graph3d;
+package nl.guidobreuer.graph.model;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,11 +9,11 @@ import java.awt.RenderingHints;
 import java.util.Optional;
 
 import equationparser.InvalidEquationException;
-import nl.guidobreuer.graph.model.graph3d.Graph.Coordinate;
+import nl.guidobreuer.graph.model.Graph.Coordinate;
 import render3d.Scene;
 
 
-public class Graph3DRenderer {
+class DefaultGraph3DRenderer implements Graph3DRenderer {
 	
 	private final Graph graph;
 	
@@ -38,7 +38,7 @@ public class Graph3DRenderer {
 	 * Create Graph3DRenderer using a Graph object
 	 * @param graph
 	 */
-	public Graph3DRenderer(Graph graph) {
+	DefaultGraph3DRenderer(Graph graph) {
 		this.graph = graph;
 		
 		r = 100;
@@ -55,7 +55,7 @@ public class Graph3DRenderer {
 	 * @param equation
 	 * @throws InvalidEquationException
 	 */
-	public Graph3DRenderer(String equation) throws InvalidEquationException {
+	DefaultGraph3DRenderer(String equation) throws InvalidEquationException {
 		this(new CustomGraph(equation));
 		graphLabel = Optional.of("Z = " + equation);
 	}

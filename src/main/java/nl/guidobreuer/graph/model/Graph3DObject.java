@@ -1,4 +1,4 @@
-package nl.guidobreuer.graph.model.graph3d;
+package nl.guidobreuer.graph.model;
 
 import java.util.List;
 

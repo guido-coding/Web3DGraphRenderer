@@ -1,4 +1,4 @@
-package nl.guidobreuer.graph.model.graph3d;
+package nl.guidobreuer.graph.model;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -196,9 +196,9 @@ public class Graph3DApp extends JPanel {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		
-		Graph3DRenderer graphRen = null;
+		DefaultGraph3DRenderer graphRen = null;
 		try {
-			graphRen = new Graph3DRenderer("0.1*y^2 - 0.1*x^2 + 0.1*x*y + 0");
+			graphRen = new DefaultGraph3DRenderer("0.1*y^2 - 0.1*x^2 + 0.1*x*y + 0");
 			
 			graphRen.setRotation(theta);
 			graphRen.setPhi(phi);

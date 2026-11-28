@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
 import equationparser.InvalidEquationException;
 import nl.guidobreuer.graph.exception.InvalidInputException;
+import nl.guidobreuer.graph.model.Graph3DRenderer;
 import nl.guidobreuer.graph.model.Graph3DRendererBuilder;
 import nl.guidobreuer.graph.model.RenderingSettings;
-import nl.guidobreuer.graph.model.graph3d.Graph3DRenderer;
 import nl.guidobreuer.graph.util.BucketManager;
 import nl.guidobreuer.graph.util.ImageToStream;
 
@@ -57,7 +57,7 @@ public class WebGraphController {
 		Graph3DRenderer renderer = Graph3DRendererBuilder.createGraph3DRenderer(settings); //create renderer
 		Dimension size = settings.getSize();
 		
-		//Start threat to interupt thread and stop rendering when the maximum duration is exceeded.
+		//Start threat to interrupt thread and stop rendering when the maximum duration is exceeded.
 		final Thread thread = Thread.currentThread();
 		final AtomicBoolean running = new AtomicBoolean(true);
 		Thread.ofVirtual().start(() -> {

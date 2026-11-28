@@ -1,10 +1,9 @@
-package nl.guidobreuer.graph.model.graph3d;
+package nl.guidobreuer.graph.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.guidobreuer.graph.model.Graph3DDatapoint;
 import render3d.ColorAdjusterFactory;
 import render3d.Object3D;
 import render3d.Object3DFactory;

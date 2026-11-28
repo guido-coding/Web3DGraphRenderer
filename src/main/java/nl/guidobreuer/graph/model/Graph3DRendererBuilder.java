@@ -1,8 +1,6 @@
 package nl.guidobreuer.graph.model;
 
 import equationparser.InvalidEquationException;
-import nl.guidobreuer.graph.model.graph3d.DatasetGraph;
-import nl.guidobreuer.graph.model.graph3d.Graph3DRenderer;
 
 public class Graph3DRendererBuilder {
 
@@ -13,7 +11,7 @@ public class Graph3DRendererBuilder {
 	 * @throws InvalidEquationException in case provided equation is not a valid equation (parsing of equation fails)
 	 */
 	public static Graph3DRenderer createGraph3DRenderer(RenderingSettings settings) throws InvalidEquationException {
-		Graph3DRenderer renderer = new Graph3DRenderer(settings.getEquation());
+		DefaultGraph3DRenderer renderer = new DefaultGraph3DRenderer(settings.getEquation());
 		
 		renderer.setRotation(settings.getRotation());
 		renderer.setPhi(settings.getVrot());
@@ -49,7 +47,7 @@ public class Graph3DRendererBuilder {
 	 * @return
 	 */
 	public static Graph3DRenderer createGraph3DRendererCustomData(CustomGraphData settings) {
-		Graph3DRenderer renderer = new Graph3DRenderer(new DatasetGraph(settings.data()));
+		DefaultGraph3DRenderer renderer = new DefaultGraph3DRenderer(new DatasetGraph(settings.data()));
 		
 		
 		renderer.setRotation(settings.rotation());
