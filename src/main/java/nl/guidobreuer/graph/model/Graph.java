@@ -260,7 +260,7 @@ abstract class Graph implements Graph3DObject {
 	}
 	
 	private boolean isInBounds(double x, double y, double z) {
-		return (x > minX && x < maxX && y > minY && y < maxY && z > minZ && z < maxZ);
+		return (x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ);
 	}
 	
 
